@@ -1,0 +1,10 @@
+src/HouseHoldApp.Domain/obj/
+src/HouseHoldApp.Domain/bin/
+src/HouseHoldApp.IntegrationTests/obj/
+src/HouseHoldApp.MVC/bin/
+src/HouseHoldApp.MVC/obj/
+src/HouseHoldApp.RepositoryEF/obj/
+src/HouseHoldApp.UnitTests/obj/
+src/HouseHoldApp.RepositoryEF/bin/
+src/HouseHoldApp.v12.suo
+src/packages/
