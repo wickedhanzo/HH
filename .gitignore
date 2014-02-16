@@ -8,3 +8,10 @@ src/HouseHoldApp.UnitTests/obj/
 src/HouseHoldApp.RepositoryEF/bin/
 src/HouseHoldApp.v12.suo
 src/packages/
+src/HouseHoldApp.Infrastructure/bin/
+src/HouseHoldApp.Infrastructure/obj/
+src/HouseHoldApp.IntegrationTests/bin/
+src/HouseHoldApp.TestBase/bin/
+src/HouseHoldApp.TestBase/obj/
+src/HouseHoldApp.UnitTests/bin/
+src/HouseHoldApp.sln.DotSettings.user

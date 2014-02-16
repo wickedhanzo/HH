@@ -15,6 +15,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HouseHoldApp.IntegrationTes
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{2F479525-25FD-4C7D-9DAB-85AE607A3397}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{1634AAC7-F7B6-4F43-B86B-62A0F4CB9921}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HouseHoldApp.Infrastructure", "HouseHoldApp.Infrastructure\HouseHoldApp.Infrastructure.csproj", "{F6D6EEB6-AC5E-4F04-9D60-F5D903BE4B14}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HouseHoldApp.TestBase", "HouseHoldApp.TestBase\HouseHoldApp.TestBase.csproj", "{AF3388EC-6EC2-40B6-854C-D2535F48EF16}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +52,14 @@ Global
 		{119EBD33-AAA0-4DE3-B9F8-45F23F355692}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{119EBD33-AAA0-4DE3-B9F8-45F23F355692}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{119EBD33-AAA0-4DE3-B9F8-45F23F355692}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6D6EEB6-AC5E-4F04-9D60-F5D903BE4B14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6D6EEB6-AC5E-4F04-9D60-F5D903BE4B14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6D6EEB6-AC5E-4F04-9D60-F5D903BE4B14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6D6EEB6-AC5E-4F04-9D60-F5D903BE4B14}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF3388EC-6EC2-40B6-854C-D2535F48EF16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF3388EC-6EC2-40B6-854C-D2535F48EF16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF3388EC-6EC2-40B6-854C-D2535F48EF16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF3388EC-6EC2-40B6-854C-D2535F48EF16}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,5 +67,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{119EBD33-AAA0-4DE3-B9F8-45F23F355692} = {2F479525-25FD-4C7D-9DAB-85AE607A3397}
 		{F02BA15A-2C7E-42C5-81FB-206551C0147A} = {2F479525-25FD-4C7D-9DAB-85AE607A3397}
+		{AF3388EC-6EC2-40B6-854C-D2535F48EF16} = {2F479525-25FD-4C7D-9DAB-85AE607A3397}
 	EndGlobalSection
 EndGlobal
