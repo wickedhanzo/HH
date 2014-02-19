@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using HouseHoldApp.Domain;
 using HouseHoldApp.Domain.DomainServices;
 using HouseHoldApp.Infrastructure.UnitOfWork;
@@ -125,6 +125,70 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
             bool validState = IsValidState(registerUserModel);
             //Assert
             Assert.True(validState);
+        }
+
+        [TestCase]
+        public void Login_Returns_ViewResult()
+        {
+            AccountController controller = CreateAccountController();
+            var actual = controller.Login() as ViewResult;
+
+            // Assert
+            Assert.IsInstanceOf<ViewResult>(actual);
+        }
+
+        [TestCase]
+        public void Login_CallsAuthenticationSignInAndReturnsHomePage_CorrectCredentials()
+        {
+            //Arrange
+            AccountController controller = CreateAccountController();
+            LoginUserModel loginUserModel = new LoginUserModel
+            {
+                EmailAddress = "test@gmail.com",
+                Password = "testpw"
+            };
+
+            _userService.Setup(
+                u =>
+                    u.IsValidUser(
+                        It.Is<User>(
+                            n =>
+                                n.EmailAddress.Equals(loginUserModel.EmailAddress) &&
+                                n.Password.Equals(loginUserModel.Password)), _passwordHasher.Object)).Returns(true);
+            
+            //Act
+            RedirectToRouteResult actual = (RedirectToRouteResult)controller.Login(loginUserModel);
+            // Assert
+            _authenticationService.Verify(a => a.Signin(loginUserModel.EmailAddress), Times.Once);
+
+            Assert.True(actual.RouteValues["action"].ToString() == "Index" &&
+            actual.RouteValues["controller"].ToString() == "Home");
+        }
+
+        [TestCase]
+        public void Login_DoesNotCallAuthenticationSignInAndReturnsView_InCorrectCredentials()
+        {
+            //Arrange
+            AccountController controller = CreateAccountController();
+            LoginUserModel loginUserModel = new LoginUserModel
+            {
+                EmailAddress = "test@gmail.com",
+                Password = "testpw"
+            };
+
+            _userService.Setup(
+                u =>
+                    u.IsValidUser(
+                        It.Is<User>(
+                            n =>
+                                n.EmailAddress.Equals(loginUserModel.EmailAddress) &&
+                                n.Password.Equals(loginUserModel.Password)), _passwordHasher.Object)).Returns(false);
+
+            //Act
+            var actual = controller.Login(loginUserModel);
+            // Assert
+            _authenticationService.Verify(a => a.Signin(loginUserModel.EmailAddress), Times.Never);
+            Assert.IsInstanceOf<ViewResult>(actual);
         }
 
         private bool IsValidState(RegisterUserModel registerUserModel)

@@ -52,5 +52,22 @@ namespace HouseHoldApp.MVC.Controllers
             }
             return View();
         }
-	}
+
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Login(LoginUserModel loginUserModel)
+        {
+            User user = new User {EmailAddress = loginUserModel.EmailAddress, Password = loginUserModel.Password};
+            if (_userService.IsValidUser(user, _passwordHasher))
+            {
+                _authenticationService.Signin(loginUserModel.EmailAddress);
+                return RedirectToAction("Index", "Home");
+            }
+            return View();
+        }
+    }
 }
