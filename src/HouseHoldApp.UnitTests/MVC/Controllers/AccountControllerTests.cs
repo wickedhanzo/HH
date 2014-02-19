@@ -159,7 +159,7 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
             //Act
             RedirectToRouteResult actual = (RedirectToRouteResult)controller.Login(loginUserModel);
             // Assert
-            _authenticationService.Verify(a => a.Signin(loginUserModel.EmailAddress), Times.Once);
+            _authenticationService.Verify(a => a.LogIn(loginUserModel.EmailAddress), Times.Once);
 
             Assert.True(actual.RouteValues["action"].ToString() == "Index" &&
             actual.RouteValues["controller"].ToString() == "Home");
@@ -187,8 +187,22 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
             //Act
             var actual = controller.Login(loginUserModel);
             // Assert
-            _authenticationService.Verify(a => a.Signin(loginUserModel.EmailAddress), Times.Never);
+            _authenticationService.Verify(a => a.LogIn(loginUserModel.EmailAddress), Times.Never);
             Assert.IsInstanceOf<ViewResult>(actual);
+        }
+
+        [TestCase]
+        public void LogOut_CallsSignOutOnAuthServiceAndRedirectsToHome()
+        {
+            //Arrange
+            AccountController controller = CreateAccountController();
+            // Act
+            var actual = (RedirectToRouteResult)controller.LogOff();
+            // Assert
+            _authenticationService.Verify(a => a.LogOut(), Times.Once);
+            Assert.True(actual.RouteValues["action"].ToString() == "Index" &&
+            actual.RouteValues["controller"].ToString() == "Home");
+
         }
 
         private bool IsValidState(RegisterUserModel registerUserModel)

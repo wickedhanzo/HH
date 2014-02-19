@@ -2,6 +2,7 @@
 {
     public interface IAuthenticationService
     {
-        void Signin(string emailAddress);
+        void LogIn(string emailAddress);
+        void LogOut();
     }
 }

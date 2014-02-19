@@ -46,7 +46,7 @@ namespace HouseHoldApp.MVC.Controllers
                 {
                     _userService.RegisterUser(user);
                     _uow.SaveChanges();
-                    _authenticationService.Signin(registerUserModel.EmailAddress);
+                    _authenticationService.LogIn(registerUserModel.EmailAddress);
                 }
                 return RedirectToAction("Index", "Home");
             }
@@ -59,12 +59,20 @@ namespace HouseHoldApp.MVC.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult LogOff()
+        {
+            _authenticationService.LogOut();
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
         public ActionResult Login(LoginUserModel loginUserModel)
         {
             User user = new User {EmailAddress = loginUserModel.EmailAddress, Password = loginUserModel.Password};
             if (_userService.IsValidUser(user, _passwordHasher))
             {
-                _authenticationService.Signin(loginUserModel.EmailAddress);
+                _authenticationService.LogIn(loginUserModel.EmailAddress);
                 return RedirectToAction("Index", "Home");
             }
             return View();

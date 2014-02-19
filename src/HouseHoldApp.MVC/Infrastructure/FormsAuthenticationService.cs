@@ -4,9 +4,14 @@ namespace HouseHoldApp.MVC.Infrastructure
 {
     public class FormsAuthenticationService : IAuthenticationService
     {
-        public void Signin(string emailAddress)
+        public void LogIn(string emailAddress)
         {
             FormsAuthentication.SetAuthCookie(emailAddress, false);
+        }
+
+        public void LogOut()
+        {
+            FormsAuthentication.SignOut();
         }
     }
 }
