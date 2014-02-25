@@ -49,12 +49,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HhContext.cs" />
-    <Compile Include="Migrations\201402141931278_CreateUser.cs" />
-    <Compile Include="Migrations\201402141931278_CreateUser.Designer.cs">
-      <DependentUpon>201402141931278_CreateUser.cs</DependentUpon>
+    <Compile Include="Migrations\201402252007584_Init.cs" />
+    <Compile Include="Migrations\201402252007584_Init.Designer.cs">
+      <DependentUpon>201402252007584_Init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\HouseHoldMemberRepositoryEF.cs" />
+    <Compile Include="Repositories\HouseHoldRepositoryEF.cs" />
+    <Compile Include="Repositories\RepositoryEF.cs" />
     <Compile Include="Repositories\UserRepositoryEF.cs" />
     <Compile Include="UnitOfWork\UnitOfWorkEF.cs" />
   </ItemGroup>
@@ -73,8 +76,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201402141931278_CreateUser.resx">
-      <DependentUpon>201402141931278_CreateUser.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201402252007584_Init.resx">
+      <DependentUpon>201402252007584_Init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

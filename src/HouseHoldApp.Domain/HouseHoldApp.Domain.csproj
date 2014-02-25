@@ -44,13 +44,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DomainServices\HouseHoldMemberService.cs" />
+    <Compile Include="DomainServices\HouseHoldService.cs" />
     <Compile Include="DomainServices\UserService.cs" />
-    <Compile Include="User.cs" />
+    <Compile Include="Entities\EntityBase.cs" />
+    <Compile Include="Entities\HouseHold.cs" />
+    <Compile Include="Entities\HouseHoldMember.cs" />
+    <Compile Include="Entities\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\IHouseHoldMemberRepository.cs" />
+    <Compile Include="Repository\IHouseHoldRepository.cs" />
     <Compile Include="Repository\IUserRepository.cs" />
+    <Compile Include="UnitOfWork\IUnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HouseHoldApp.Infrastructure\HouseHoldApp.Infrastructure.csproj">
+      <Project>{F6D6EEB6-AC5E-4F04-9D60-F5D903BE4B14}</Project>
+      <Name>HouseHoldApp.Infrastructure</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

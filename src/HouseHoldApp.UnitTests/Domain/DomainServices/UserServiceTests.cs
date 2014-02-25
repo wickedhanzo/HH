@@ -1,8 +1,6 @@
-﻿using System;
-using HouseHoldApp.Domain;
-using HouseHoldApp.Domain.DomainServices;
+﻿using HouseHoldApp.Domain.DomainServices;
+using HouseHoldApp.Domain.Entities;
 using HouseHoldApp.Domain.Repository;
-using HouseHoldApp.RepositoryEF.Repositories;
 using HouseHoldApp.TestBase.ObjectMothers;
 using Microsoft.AspNet.Identity;
 using Moq;
@@ -11,7 +9,7 @@ using NUnit.Framework;
 namespace HouseHoldApp.UnitTests.Domain.DomainServices
 {
     [TestFixture]
-    public class UserServiceTest
+    public class UserServiceTests
     {
         [TestCase]
         public void RegisterUser_CallsAddOnUserRepository()
@@ -77,6 +75,21 @@ namespace HouseHoldApp.UnitTests.Domain.DomainServices
             bool isValidUser = userService.IsValidUser(userInput, passwordHasher.Object);
             //Assert
             Assert.False(isValidUser);
+        }
+
+        [TestCase]
+        public void FindByEmailAddress_ReturnsUserReturnedByRepository()
+        {
+            //Arrange
+            Mock<IUserRepository> userRepository = new Mock<IUserRepository>();
+            User user = UserObjectMother.GetUserWithRandomId();
+            userRepository.Setup(ur => ur.FindByEmailAddress("test1@email.com")).Returns(user);
+            IUserService userService = new UserService(userRepository.Object);
+            //Act
+            User userFound = userService.FindByEmailAddress("test1@email.com");
+            //Arrange
+            Assert.AreEqual(user, userFound);
+
         }
     }
 }

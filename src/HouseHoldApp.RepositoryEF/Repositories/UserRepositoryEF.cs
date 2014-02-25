@@ -2,22 +2,18 @@
 using System.Data.Entity;
 using System.Linq;
 using HouseHoldApp.Domain;
+using HouseHoldApp.Domain.Entities;
 using HouseHoldApp.Domain.Repository;
 
 namespace HouseHoldApp.RepositoryEF.Repositories
 {
-    public class UserRepositoryEF : IUserRepository
+    public class UserRepositoryEF : RepositoryEF<User>, IUserRepository
     {
         private readonly IDbSet<User> _dbSet;
 
-        public UserRepositoryEF(IDbSet<User> dbSet)
+        public UserRepositoryEF(IDbSet<User> dbSet) : base(dbSet)
         {
             _dbSet = dbSet;
-        }
-
-        public void Add(User user)
-        {
-            _dbSet.Add(user);
         }
 
         public User FindByEmailAddress(string emailAddress)

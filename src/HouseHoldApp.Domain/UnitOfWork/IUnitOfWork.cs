@@ -1,7 +1,7 @@
 ﻿using System;
 using HouseHoldApp.Domain.Repository;
 
-namespace HouseHoldApp.Infrastructure.UnitOfWork
+namespace HouseHoldApp.Domain.UnitOfWork
 {
     public interface IUnitOfWork : IDisposable
     {

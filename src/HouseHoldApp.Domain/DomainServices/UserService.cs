@@ -1,4 +1,5 @@
 ﻿using System;
+using HouseHoldApp.Domain.Entities;
 using HouseHoldApp.Domain.Repository;
 using Microsoft.AspNet.Identity;
 
@@ -8,6 +9,7 @@ namespace HouseHoldApp.Domain.DomainServices
     {
         void RegisterUser(User user);
         bool IsValidUser(User user, IPasswordHasher passwordHasher);
+        User FindByEmailAddress(string emailAddress);
     }
     public class UserService : IUserService
     {
@@ -32,6 +34,12 @@ namespace HouseHoldApp.Domain.DomainServices
                 isValid = passwordHasher.VerifyHashedPassword(userFound.Password, user.Password) == PasswordVerificationResult.Success;
             }
             return isValid;
+        }
+
+        public User FindByEmailAddress(string emailAddress)
+        {
+            User userFound = _userRepository.FindByEmailAddress(emailAddress);
+            return userFound;
         }
     }
 }

@@ -86,12 +86,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Domain\DomainServices\UserServiceTest.cs" />
+    <Compile Include="Domain\DomainServices\HouseHoldMemberServiceTests.cs" />
+    <Compile Include="Domain\DomainServices\HouseHoldServiceTests.cs" />
+    <Compile Include="Domain\DomainServices\UserServiceTests.cs" />
     <Compile Include="MVC\App_Start\RouteConfigTests.cs" />
     <Compile Include="MVC\Controllers\AccountControllerTests.cs" />
     <Compile Include="MVC\Controllers\HomeControllerTests.cs" />
+    <Compile Include="MVC\Controllers\HouseHoldControllerTests.cs" />
     <Compile Include="MVC\Infrastructure\CustomerControllerFactoryTests.cs" />
+    <Compile Include="MVC\Models\CurrentUserTests.cs" />
+    <Compile Include="MVC\Models\HouseHoldCreateModelTests.cs" />
+    <Compile Include="MVC\Models\RegisterUserModelTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RepositoryEF\HouseHoldMemberRepositoryTests.cs" />
+    <Compile Include="RepositoryEF\HouseHoldRepositoryTests.cs" />
+    <Compile Include="RepositoryEF\MockUtil.cs" />
     <Compile Include="RepositoryEF\UnitOfWorkTests.cs" />
     <Compile Include="RepositoryEF\UserRepositoryTests.cs" />
   </ItemGroup>

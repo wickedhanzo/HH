@@ -23,5 +23,13 @@ namespace HouseHoldApp.UnitTests.MVC.Infrastructure
             IController controller = factory.CreateController(null, "Home");
             Assert.IsInstanceOf<HomeController>(controller);
         }
+
+        [TestCase]
+        public void CreateController_ReturnsHouseHoldController_WhenCalledWithHouseHold()
+        {
+            CustomControllerFactory factory = new CustomControllerFactory();
+            IController controller = factory.CreateController(null, "HouseHold");
+            Assert.IsInstanceOf<HouseHoldController>(controller);
+        }
     }
 }

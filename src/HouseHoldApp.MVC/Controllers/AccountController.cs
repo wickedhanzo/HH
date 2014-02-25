@@ -2,7 +2,8 @@
 using System.Web.Security;
 using HouseHoldApp.Domain;
 using HouseHoldApp.Domain.DomainServices;
-using HouseHoldApp.Infrastructure.UnitOfWork;
+using HouseHoldApp.Domain.Entities;
+using HouseHoldApp.Domain.UnitOfWork;
 using HouseHoldApp.MVC.Infrastructure;
 using HouseHoldApp.MVC.Models;
 using Microsoft.AspNet.Identity;

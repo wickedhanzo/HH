@@ -1,8 +1,7 @@
-﻿namespace HouseHoldApp.Domain
+﻿namespace HouseHoldApp.Domain.Entities
 {
-    public class User
+    public class User : EntityBase
     {
-        public int Id { get; set; }
         public string EmailAddress { get; set; }
         public string Password { get; set; }
     }

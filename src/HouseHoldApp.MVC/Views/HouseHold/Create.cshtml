@@ -1,0 +1,19 @@
+﻿@model HouseHoldApp.MVC.Models.HouseHoldCreateModel
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm("Create", "HouseHold", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <h4>Create a new household.</h4>
+    <hr />
+    @Html.ValidationSummary()
+    @Html.LabelFor(h => h.Name)
+    @Html.TextBoxFor(h => h.Name)
+    <input type="submit" name="Register" />
+}
+

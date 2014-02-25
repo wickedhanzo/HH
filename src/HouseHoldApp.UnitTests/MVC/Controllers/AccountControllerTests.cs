@@ -4,7 +4,8 @@ using System.Web.Mvc;
 using System.Web.UI.WebControls;
 using HouseHoldApp.Domain;
 using HouseHoldApp.Domain.DomainServices;
-using HouseHoldApp.Infrastructure.UnitOfWork;
+using HouseHoldApp.Domain.Entities;
+using HouseHoldApp.Domain.UnitOfWork;
 using HouseHoldApp.MVC.Controllers;
 using HouseHoldApp.MVC.Infrastructure;
 using HouseHoldApp.MVC.Models;
@@ -61,71 +62,7 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
             controller.Register(registerUserModel);
             // Assert
             _userService.Verify(u => u.RegisterUser(It.Is<User>(n => n.EmailAddress.Equals(registerUserModel.EmailAddress) && n.Password.Equals("testpwHashed"))), Times.Once);          
-        }
-
-        [TestCase]
-        public void RegisterHttpPost_ViewStateInvalid_CalledWithDifferentPasswords()
-        {
-            //Arrange
-            RegisterUserModel registerUserModel = new RegisterUserModel
-            {
-                EmailAddress = "testaddress@gmail.com",
-                Password = "test",
-                ConfirmPassword = "test2"
-            };
-            //Act
-            bool validState = IsValidState(registerUserModel);
-            //Assert
-            Assert.False(validState);
-        }
-
-        [TestCase]
-        public void RegisterHttpPost_ViewStateInvalid_CalledWithEmptyEmailAddress()
-        {
-            //Arrange
-            RegisterUserModel registerUserModel = new RegisterUserModel
-            {
-                EmailAddress = string.Empty,
-                Password = "test",
-                ConfirmPassword = "test"
-            };
-            //Act
-            bool validState = IsValidState(registerUserModel);
-            //Assert
-            Assert.False(validState);
-        }
-
-        [TestCase]
-        public void RegisterHttpPost_ViewStateInvalid_CalledWithEmptyPasswordAndEmptyConfirmPassword()
-        {
-            //Arrange
-            RegisterUserModel registerUserModel = new RegisterUserModel
-            {
-                EmailAddress = "test@gmail.com",
-                Password = string.Empty,
-                ConfirmPassword = string.Empty,
-            };
-            //Act
-            bool validState = IsValidState(registerUserModel);
-            //Assert
-            Assert.False(validState);
-        }
-
-        [TestCase]
-        public void RegisterHttpPost_ViewStateValid_CalledWithValidInfo()
-        {
-            //Arrange
-            RegisterUserModel registerUserModel = new RegisterUserModel
-            {
-                EmailAddress = "test@gmail.com",
-                Password = "testpw",
-                ConfirmPassword = "testpw",
-            };
-            //Act
-            bool validState = IsValidState(registerUserModel);
-            //Assert
-            Assert.True(validState);
-        }
+        }     
 
         [TestCase]
         public void Login_Returns_ViewResult()
@@ -203,13 +140,6 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
             Assert.True(actual.RouteValues["action"].ToString() == "Index" &&
             actual.RouteValues["controller"].ToString() == "Home");
 
-        }
-
-        private bool IsValidState(RegisterUserModel registerUserModel)
-        {
-            List<ValidationResult> validationResults = new List<ValidationResult>();
-            ValidationContext context = new ValidationContext(registerUserModel, null, null);
-            return Validator.TryValidateObject(registerUserModel, context, validationResults, true);
         }
 
         private AccountController CreateAccountController()

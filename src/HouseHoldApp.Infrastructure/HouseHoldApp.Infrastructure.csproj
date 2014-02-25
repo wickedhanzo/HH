@@ -40,13 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UnitOfWork\IUnitOfWork.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\HouseHoldApp.Domain\HouseHoldApp.Domain.csproj">
-      <Project>{EFCE4933-860D-40A2-874E-9DE2C62DDEF3}</Project>
-      <Name>HouseHoldApp.Domain</Name>
-    </ProjectReference>
+    <Compile Include="Repository\IRepository.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

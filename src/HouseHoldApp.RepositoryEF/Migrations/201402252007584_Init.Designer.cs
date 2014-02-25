@@ -7,13 +7,13 @@ namespace HouseHoldApp.RepositoryEF.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.0.2-21211")]
-    public sealed partial class CreateUser : IMigrationMetadata
+    public sealed partial class Init : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(CreateUser));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Init));
         
         string IMigrationMetadata.Id
         {
-            get { return "201402141931278_CreateUser"; }
+            get { return "201402252007584_Init"; }
         }
         
         string IMigrationMetadata.Source

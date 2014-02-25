@@ -1,5 +1,5 @@
 ﻿using System;
-using HouseHoldApp.Domain;
+using HouseHoldApp.Domain.Entities;
 
 namespace HouseHoldApp.TestBase.ObjectMothers
 {
@@ -7,7 +7,11 @@ namespace HouseHoldApp.TestBase.ObjectMothers
     {
         public static User GetUserWithRandomId()
         {
-            User user = new User {Id = new Random(10000).Next()};
+            User user = new User
+            {
+                Id = new Random(10000).Next(),
+                EmailAddress = "user1@email.com"
+            };
             return user;
         }
     }

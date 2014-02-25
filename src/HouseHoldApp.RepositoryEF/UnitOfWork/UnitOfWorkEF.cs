@@ -1,6 +1,6 @@
 ﻿using System.Data.Entity;
 using HouseHoldApp.Domain.Repository;
-using HouseHoldApp.Infrastructure.UnitOfWork;
+using HouseHoldApp.Domain.UnitOfWork;
 
 namespace HouseHoldApp.RepositoryEF.UnitOfWork
 {
@@ -14,7 +14,17 @@ namespace HouseHoldApp.RepositoryEF.UnitOfWork
             UserRepository = userRepository;
         }
 
+        public UnitOfWorkEF(HhContext context, IUserRepository userRepository, IHouseHoldRepository houseHoldRepository, IHouseHoldMemberRepository houseHoldMemberRepository)
+        {
+            _context = context;
+            UserRepository = userRepository;
+            HouseHoldRepository = houseHoldRepository;
+            HouseHoldMemberRepository = houseHoldMemberRepository;
+        }
+
         public IUserRepository UserRepository { get; private set; }
+        public IHouseHoldRepository HouseHoldRepository { get; private set; }
+        public IHouseHoldMemberRepository HouseHoldMemberRepository { get; private set; }
         public void SaveChanges()
         {
             _context.SaveChanges();

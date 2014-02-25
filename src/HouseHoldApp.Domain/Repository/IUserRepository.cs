@@ -1,4 +1,6 @@
-﻿namespace HouseHoldApp.Domain.Repository
+﻿using HouseHoldApp.Domain.Entities;
+
+namespace HouseHoldApp.Domain.Repository
 {
     public interface IUserRepository
     {
