@@ -12,7 +12,7 @@ namespace HouseHoldApp.UnitTests.MVC.Models
         [TestCase]
         public void Constructor_setsVariables()
         {
-            Mock<FormsIdentity> identity = new Mock<FormsIdentity>();
+            Mock<IIdentity> identity = new Mock<IIdentity>();
             identity.Setup(i => i.IsAuthenticated).Returns(true);
             identity.Setup(i => i.Name).Returns("test1@email.com");
             

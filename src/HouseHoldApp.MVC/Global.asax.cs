@@ -10,8 +10,6 @@ namespace HouseHoldApp.MVC
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-            var controllerFactory = new CustomControllerFactory();
-            ControllerBuilder.Current.SetControllerFactory(controllerFactory);
         }
     }
 }

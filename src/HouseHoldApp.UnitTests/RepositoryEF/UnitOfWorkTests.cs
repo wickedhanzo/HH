@@ -12,7 +12,7 @@ namespace HouseHoldApp.UnitTests.RepositoryEF
     [TestFixture]
     public class UnitOfWorkTests
     {
-        public class MockContext : DbContext
+        public class MockContext : HhContext
         {
             public bool DisposeCalled { get; set; }
             public new void Dispose()
@@ -24,9 +24,8 @@ namespace HouseHoldApp.UnitTests.RepositoryEF
         public void UnitOfWork_SaveChanges_CallsSaveChangesOnContext()
         {
             //Arrange
-            Mock<DbContext> context = new Mock<DbContext>();
-            Mock<IUserRepository> userRepository = new Mock<IUserRepository>();
-            IUnitOfWork uow = new UnitOfWorkEF(context.Object, userRepository.Object);
+            Mock<HhContext> context = new Mock<HhContext>();
+            IUnitOfWork uow = new UnitOfWorkEF(context.Object);
             //Act
             uow.SaveChanges();
             //Assert
@@ -39,7 +38,7 @@ namespace HouseHoldApp.UnitTests.RepositoryEF
             //Arrange
             MockContext context = new MockContext();
             Mock<IUserRepository> userRepository = new Mock<IUserRepository>();
-            IUnitOfWork uow = new UnitOfWorkEF(context, userRepository.Object);
+            IUnitOfWork uow = new UnitOfWorkEF(context);
             //Act
             uow.Dispose();
             //Assert

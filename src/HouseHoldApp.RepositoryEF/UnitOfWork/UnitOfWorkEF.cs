@@ -6,32 +6,20 @@ namespace HouseHoldApp.RepositoryEF.UnitOfWork
 {
     public class UnitOfWorkEF : IUnitOfWork
     {
-        private readonly DbContext _context;
-
-        public UnitOfWorkEF(DbContext context,IUserRepository userRepository)
+        public UnitOfWorkEF(HhContext context)
         {
-            _context = context;
-            UserRepository = userRepository;
+            DbContext = context;
         }
 
-        public UnitOfWorkEF(HhContext context, IUserRepository userRepository, IHouseHoldRepository houseHoldRepository, IHouseHoldMemberRepository houseHoldMemberRepository)
-        {
-            _context = context;
-            UserRepository = userRepository;
-            HouseHoldRepository = houseHoldRepository;
-            HouseHoldMemberRepository = houseHoldMemberRepository;
-        }
+        public HhContext DbContext { get; set; }
 
-        public IUserRepository UserRepository { get; private set; }
-        public IHouseHoldRepository HouseHoldRepository { get; private set; }
-        public IHouseHoldMemberRepository HouseHoldMemberRepository { get; private set; }
         public void SaveChanges()
         {
-            _context.SaveChanges();
+            DbContext.SaveChanges();
         }
         public void Dispose()
         {
-            _context.Dispose();
+            DbContext.Dispose();
         }
     }
 }

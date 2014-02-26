@@ -93,7 +93,6 @@
     <Compile Include="MVC\Controllers\AccountControllerTests.cs" />
     <Compile Include="MVC\Controllers\HomeControllerTests.cs" />
     <Compile Include="MVC\Controllers\HouseHoldControllerTests.cs" />
-    <Compile Include="MVC\Infrastructure\CustomerControllerFactoryTests.cs" />
     <Compile Include="MVC\Models\CurrentUserTests.cs" />
     <Compile Include="MVC\Models\HouseHoldCreateModelTests.cs" />
     <Compile Include="MVC\Models\RegisterUserModelTests.cs" />
@@ -129,6 +128,9 @@
       <Project>{AF3388EC-6EC2-40B6-854C-D2535F48EF16}</Project>
       <Name>HouseHoldApp.TestBase</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="MVC\Infrastructure\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
