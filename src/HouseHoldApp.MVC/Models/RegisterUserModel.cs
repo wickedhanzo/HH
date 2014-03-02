@@ -5,7 +5,7 @@ namespace HouseHoldApp.MVC.Models
     public class RegisterUserModel
     {
         [Required]
-        public string EmailAddress { get; set; }
+        public string UserName { get; set; }
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         [Required]

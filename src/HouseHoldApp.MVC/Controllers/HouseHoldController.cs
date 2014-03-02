@@ -1,11 +1,9 @@
 ﻿using System.Web.Mvc;
 using HouseHoldApp.Domain.DomainServices;
 using HouseHoldApp.Domain.Entities;
-using HouseHoldApp.Domain.Repository;
 using HouseHoldApp.Domain.UnitOfWork;
+using HouseHoldApp.MVC.Infrastructure;
 using HouseHoldApp.MVC.Models;
-using HouseHoldApp.RepositoryEF.Repositories;
-using Microsoft.AspNet.Identity;
 
 namespace HouseHoldApp.MVC.Controllers
 {
@@ -13,29 +11,26 @@ namespace HouseHoldApp.MVC.Controllers
     {
         private readonly IHouseHoldService _houseHoldService;
         private readonly IHouseHoldMemberService _houseHoldMemberService;
-        private readonly IUserService _userService;
         private readonly IUnitOfWork _uow;
-        private readonly CurrentUser _currentUser;
+        private readonly ICurrentUser _currentUser;
 
         public HouseHoldController(IHouseHoldService houseHoldService,
                                    IHouseHoldMemberService houseHoldMemberService,
-                                   IUserService userService,
                                    IUnitOfWork uow,
-                                   CurrentUser currentUser)
+                                   ICurrentUser currentUser)
         {
             _houseHoldService = houseHoldService;
             _houseHoldMemberService = houseHoldMemberService;
-            _userService = userService;
             _uow = uow;
             _currentUser = currentUser;
+            
         }
-
-        public ActionResult Create()
+        public ActionResult Index()
         {
             return View();
         }
 
-        public ActionResult Index()
+        public ActionResult Create()
         {
             return View();
         }
@@ -45,21 +40,20 @@ namespace HouseHoldApp.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                HouseHold houseHold = new HouseHold {Name = houseHoldCreateModel.Name};
+                HouseHold houseHold = new HouseHold { Name = houseHoldCreateModel.Name };
                 _houseHoldService.CreateHouseHold(houseHold);
-                User user = _userService.FindByEmailAddress(_currentUser.EmailAddress);
+
                 HouseHoldMember houseHoldMember = new HouseHoldMember
                 {
-                    EmailAddress = user.EmailAddress,
-                    HouseHold = houseHold,
-                    Id = user.Id,
-                    Password = user.Password
+                    UserId = _currentUser.UserId,
+                    HouseHoldId = houseHold.Id
                 };
                 _houseHoldMemberService.CreateHouseHoldMember(houseHoldMember);
                 _uow.SaveChanges();
+
                 return RedirectToAction("Index", "HouseHold");
             }
             return View();
         }
-	}
+    }
 }

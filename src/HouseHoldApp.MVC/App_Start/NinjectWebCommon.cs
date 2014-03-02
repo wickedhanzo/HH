@@ -4,10 +4,14 @@ using HouseHoldApp.Domain.Entities;
 using HouseHoldApp.Domain.Repository;
 using HouseHoldApp.Domain.UnitOfWork;
 using HouseHoldApp.MVC.Infrastructure;
+using HouseHoldApp.MVC.Models;
 using HouseHoldApp.RepositoryEF;
 using HouseHoldApp.RepositoryEF.Repositories;
 using HouseHoldApp.RepositoryEF.UnitOfWork;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.Owin.Security;
+
 
 [assembly: WebActivator.PreApplicationStartMethod(typeof(HouseHoldApp.MVC.App_Start.NinjectWebCommon), "Start")]
 [assembly: WebActivator.ApplicationShutdownMethodAttribute(typeof(HouseHoldApp.MVC.App_Start.NinjectWebCommon), "Stop")]
@@ -22,7 +26,7 @@ namespace HouseHoldApp.MVC.App_Start
     using Ninject;
     using Ninject.Web.Common;
 
-    public static class NinjectWebCommon 
+    public static class NinjectWebCommon
     {
         private static readonly Bootstrapper bootstrapper = new Bootstrapper();
 
@@ -65,9 +69,12 @@ namespace HouseHoldApp.MVC.App_Start
         private static void RegisterServices(IKernel kernel)
         {
             kernel.Bind<HhContext>().ToSelf().InRequestScope();
-            kernel.Bind<IUserRepository>().To<UserRepositoryEF>()
-                .WithConstructorArgument("dbSet",
-                             context => context.Kernel.Get<HhContext>().Set<User>());
+            kernel.Bind<UserStore<User>>().ToSelf().WithConstructorArgument("context", context => context.Kernel.Get<HhContext>());
+
+            kernel.Bind<UserManager<User>>().ToSelf().WithConstructorArgument("store", context => context.Kernel.Get<UserStore<User>>());
+            //kernel.Bind<IUserRepository>().To<UserRepositoryEF>()
+             //   .WithConstructorArgument("dbSet",
+               //              context => context.Kernel.Get<HhContext>().Set<User>());
             kernel.Bind<IHouseHoldRepository>().To<HouseHoldRepositoryEF>()
             .WithConstructorArgument("dbSet",
                              context => context.Kernel.Get<HhContext>().Set<HouseHold>());
@@ -77,10 +84,11 @@ namespace HouseHoldApp.MVC.App_Start
             kernel.Bind<IPasswordHasher>().To<PasswordHasher>();
             kernel.Bind<IHouseHoldService>().To<HouseHoldService>();
             kernel.Bind<IHouseHoldMemberService>().To<HouseHoldMemberService>();
-            kernel.Bind<IUserService>().To<UserService>();
+            kernel.Bind<IUserService>().To<UserService>().WithConstructorArgument("userManager", context => context.Kernel.Get<UserManager<User>>());
             kernel.Bind<IUnitOfWork>().To<UnitOfWorkEF>();
-            kernel.Bind<IAuthenticationService>().To<FormsAuthenticationService>();
             kernel.Bind<IIdentity>().ToMethod(c => HttpContext.Current.User.Identity);
+            kernel.Bind<ICurrentUser>().To<CurrentUser>().WithConstructorArgument("identity", c => c.Kernel.Get<IIdentity>());
+            kernel.Bind<IAuthenticationManager>().ToMethod(c => HttpContext.Current.GetOwinContext().Authentication);
         }        
     }
 }

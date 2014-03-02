@@ -38,6 +38,13 @@
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\packages\EntityFramework.6.0.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.1.0.0\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.1.0.0\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -49,16 +56,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HhContext.cs" />
-    <Compile Include="Migrations\201402252007584_Init.cs" />
-    <Compile Include="Migrations\201402252007584_Init.Designer.cs">
-      <DependentUpon>201402252007584_Init.cs</DependentUpon>
+    <Compile Include="Migrations\201402272320034_Init.cs" />
+    <Compile Include="Migrations\201402272320034_Init.Designer.cs">
+      <DependentUpon>201402272320034_Init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201402282035334_userId.cs" />
+    <Compile Include="Migrations\201402282035334_userId.Designer.cs">
+      <DependentUpon>201402282035334_userId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201402282039245_HouseHoldId.cs" />
+    <Compile Include="Migrations\201402282039245_HouseHoldId.Designer.cs">
+      <DependentUpon>201402282039245_HouseHoldId.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\HouseHoldMemberRepositoryEF.cs" />
     <Compile Include="Repositories\HouseHoldRepositoryEF.cs" />
     <Compile Include="Repositories\RepositoryEF.cs" />
-    <Compile Include="Repositories\UserRepositoryEF.cs" />
     <Compile Include="UnitOfWork\UnitOfWorkEF.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -76,8 +90,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201402252007584_Init.resx">
-      <DependentUpon>201402252007584_Init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201402272320034_Init.resx">
+      <DependentUpon>201402272320034_Init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201402282035334_userId.resx">
+      <DependentUpon>201402282035334_userId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201402282039245_HouseHoldId.resx">
+      <DependentUpon>201402282039245_HouseHoldId.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

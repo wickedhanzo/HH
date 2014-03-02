@@ -15,7 +15,7 @@ namespace HouseHoldApp.UnitTests.MVC.Models
             //Arrange
             RegisterUserModel registerUserModel = new RegisterUserModel
             {
-                EmailAddress = "testaddress@gmail.com",
+                UserName = "testaddress@gmail.com",
                 Password = "test",
                 ConfirmPassword = "test2"
             };
@@ -31,7 +31,7 @@ namespace HouseHoldApp.UnitTests.MVC.Models
             //Arrange
             RegisterUserModel registerUserModel = new RegisterUserModel
             {
-                EmailAddress = string.Empty,
+                UserName = string.Empty,
                 Password = "test",
                 ConfirmPassword = "test"
             };
@@ -47,7 +47,7 @@ namespace HouseHoldApp.UnitTests.MVC.Models
             //Arrange
             RegisterUserModel registerUserModel = new RegisterUserModel
             {
-                EmailAddress = "test@gmail.com",
+                UserName = "test@gmail.com",
                 Password = string.Empty,
                 ConfirmPassword = string.Empty,
             };
@@ -63,7 +63,7 @@ namespace HouseHoldApp.UnitTests.MVC.Models
             //Arrange
             RegisterUserModel registerUserModel = new RegisterUserModel
             {
-                EmailAddress = "test@gmail.com",
+                UserName = "test@gmail.com",
                 Password = "testpw",
                 ConfirmPassword = "testpw",
             };

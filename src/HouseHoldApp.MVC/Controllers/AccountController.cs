@@ -1,31 +1,24 @@
-﻿using System.Web.Mvc;
-using System.Web.Security;
-using HouseHoldApp.Domain;
+﻿using System.Threading.Tasks;
+using System.Web.Mvc;
 using HouseHoldApp.Domain.DomainServices;
 using HouseHoldApp.Domain.Entities;
-using HouseHoldApp.Domain.UnitOfWork;
-using HouseHoldApp.MVC.Infrastructure;
 using HouseHoldApp.MVC.Models;
 using Microsoft.AspNet.Identity;
+using Microsoft.Owin.Security;
 
 namespace HouseHoldApp.MVC.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly IPasswordHasher _passwordHasher;
+        
         private readonly IUserService _userService;
-        private readonly IAuthenticationService _authenticationService;
-        private readonly IUnitOfWork _uow;
+        private readonly IAuthenticationManager _authenticationManager;
 
-        public AccountController(IPasswordHasher passwordHasher,
-                                 IUserService userService, 
-                                 IAuthenticationService authenticationService,
-                                 IUnitOfWork uow)
-        {
-            _passwordHasher = passwordHasher;
+        public AccountController(IUserService userService,
+                                 IAuthenticationManager authenticationManager)
+        {          
             _userService = userService;
-            _authenticationService = authenticationService;
-            _uow = uow;
+            _authenticationManager = authenticationManager;
         }
 
         public ActionResult Register()
@@ -34,22 +27,20 @@ namespace HouseHoldApp.MVC.Controllers
         }
 
         [HttpPost]
-        public ActionResult Register(RegisterUserModel registerUserModel)
+        public async Task<ActionResult> Register(RegisterUserModel registerUserModel)
         {
             if (ModelState.IsValid)
             {
                 User user = new User
                 {
-                    EmailAddress = registerUserModel.EmailAddress,
-                    Password = _passwordHasher.HashPassword(registerUserModel.Password)
+                    UserName = registerUserModel.UserName
                 };
-                using (_uow)
+                IdentityResult result = await _userService.CreateAsync(user, registerUserModel.Password);
+                if (result.Succeeded)
                 {
-                    _userService.RegisterUser(user);
-                    _uow.SaveChanges();
-                    _authenticationService.LogIn(registerUserModel.EmailAddress);
+                    await SignInAsync(user, false);
+                    return RedirectToAction("Index", "Home");
                 }
-                return RedirectToAction("Index", "Home");
             }
             return View();
         }
@@ -63,20 +54,31 @@ namespace HouseHoldApp.MVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            _authenticationService.LogOut();
+            _authenticationManager.SignOut();
             return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
-        public ActionResult Login(LoginUserModel loginUserModel)
+        public async Task<ActionResult> Login(LoginUserModel loginUserModel)
         {
-            User user = new User {EmailAddress = loginUserModel.EmailAddress, Password = loginUserModel.Password};
-            if (_userService.IsValidUser(user, _passwordHasher))
+            if (ModelState.IsValid)
             {
-                _authenticationService.LogIn(loginUserModel.EmailAddress);
-                return RedirectToAction("Index", "Home");
+                var user = await _userService.FindAsync(loginUserModel.UserName, loginUserModel.Password);
+                if (user != null)
+                {
+                    await SignInAsync(user, false);
+                    return RedirectToAction("Index", "Home");
+                }
+                ModelState.AddModelError("", "Invalid username or password.");
             }
-            return View();
+            return View(loginUserModel);
+        }
+
+        private async Task SignInAsync(User user, bool isPersistent)
+        {
+            _authenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
+            var identity = await _userService.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
+            _authenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = isPersistent }, identity);
         }
     }
 }

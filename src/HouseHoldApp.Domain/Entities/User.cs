@@ -1,8 +1,9 @@
-﻿namespace HouseHoldApp.Domain.Entities
+﻿using Microsoft.AspNet.Identity.EntityFramework;
+
+namespace HouseHoldApp.Domain.Entities
 {
-    public class User : EntityBase
+    public class User : IdentityUser
     {
         public string EmailAddress { get; set; }
-        public string Password { get; set; }
     }
 }

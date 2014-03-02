@@ -7,13 +7,13 @@ namespace HouseHoldApp.RepositoryEF.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.0.2-21211")]
-    public sealed partial class Init : IMigrationMetadata
+    public sealed partial class HouseHoldId : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Init));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(HouseHoldId));
         
         string IMigrationMetadata.Id
         {
-            get { return "201402252007584_Init"; }
+            get { return "201402282039245_HouseHoldId"; }
         }
         
         string IMigrationMetadata.Source
