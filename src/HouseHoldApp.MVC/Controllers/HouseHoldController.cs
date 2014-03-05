@@ -25,11 +25,14 @@ namespace HouseHoldApp.MVC.Controllers
             _currentUser = currentUser;
             
         }
+
+        [Authorize]
         public ActionResult Index()
         {
             return View();
         }
 
+        [Authorize]
         public ActionResult Create()
         {
             return View();

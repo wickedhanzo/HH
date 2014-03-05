@@ -1,21 +1,35 @@
-﻿<!DOCTYPE html>
+﻿@using System.Activities.Expressions
+@using System.Web.Mvc.Html
+<!DOCTYPE html>
 <html>
 <head>
     <title>@ViewBag.Title - My ASP.NET Application</title>
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.10.4.custom.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="~/Content/site.css" />
+    <script>
+        $(function () {
+            $(".button")
+                .button();
+            $(".submitbutton").button();
+        });
+    </script>
 </head>
-    <body>
+<body>
+    <div class="banner">
+        <a class="applicationblock" href="/">         
+        </a>
+        <ul class="menu">
+            <li class="menuitem">@Html.ActionLink("Home", "Index", "Home", routeValues: null, htmlAttributes: new { id = "loginLink", @class = "menuitem" })</li>
+        </ul>
         @Html.Partial("_LoginPartial")
-
-        
-                    @Html.ActionLink("Application name", "Index", "Home", null, new { @class = "navbar-brand" })
-                
-        <div class="container body-content">
-            @RenderBody()
-            <hr />
-            <footer>
-                <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-            </footer>
-        </div>    
-    </body>
+    </div>
+    <div class="bodycontent">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>
+    </div>
+</body>
 </html>

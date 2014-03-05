@@ -1,11 +1,8 @@
 namespace HouseHoldApp.RepositoryEF.Migrations
 {
-    using System;
-    using System.Data.Entity;
     using System.Data.Entity.Migrations;
-    using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<HouseHoldApp.RepositoryEF.HhContext>
+    public class Configuration : DbMigrationsConfiguration<HouseHoldApp.RepositoryEF.HhContext>
     {
         public Configuration()
         {

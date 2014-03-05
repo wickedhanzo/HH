@@ -2,31 +2,25 @@
 @{
     ViewBag.Title = "Register";
 }
-@if (Request.IsAuthenticated)
-{
-    <text>
-        Hello, User.Identity.Name
-    </text>
-}
-else
-{
-    <ul>
-        <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-    </ul>
-}
-<h2>Register</h2>
 
 @using (Html.BeginForm("Register", "Account", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
-    <h4>Create a new account.</h4>
-    <hr />
     @Html.ValidationSummary()
-    @Html.LabelFor(m => m.UserName)
-    @Html.TextBoxFor(m => m.UserName)
-    @Html.LabelFor(m => m.Password)
-    @Html.PasswordFor(m => m.Password)
-    @Html.LabelFor(m => m.ConfirmPassword)
-    @Html.PasswordFor(m => m.ConfirmPassword)
-    <input type="submit" name="Register" />
+    <div class="field">
+        @Html.LabelFor(m => m.UserName)
+        @Html.TextBoxFor(m => m.UserName)
+    </div>
+    <div class="field">
+        @Html.LabelFor(m => m.Password)
+        @Html.PasswordFor(m => m.Password)
+    </div>
+    <div class="field">
+        @Html.LabelFor(m => m.ConfirmPassword)
+        @Html.PasswordFor(m => m.ConfirmPassword)
+    </div>
+    <div class="field">
+        <label>&nbsp;</label>
+        <input type="submit" name="Register" class="submitbutton" value="Register" />
+    </div>
 }

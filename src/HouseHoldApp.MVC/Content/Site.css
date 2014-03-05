@@ -1,0 +1,108 @@
+﻿@import url("Reset.css");
+@import url("jquery-ui-1.10.4.custom.min.css");
+
+body {
+    color: #333333;
+    font-family: Georgia,"Times New Roman",Times,serif;
+    font-size: 10px;
+}
+
+label {
+    padding: 5px;
+}
+
+.bodycontent {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+form {
+    margin: auto;
+    width: 250px;
+}
+
+.homepage {
+    margin: auto;
+    width: 150px;
+}
+
+.centeredbuttons {
+    display: inline; float: none;text-align:center;width: 150px;
+}
+
+.field {
+    margin-bottom: 10px;
+}
+
+    .field label {
+        float: left;
+        width: 90px;
+    }
+
+.button {
+    font-size: 14px;
+}
+
+.banner {
+    margin-top: 10px;
+    height: 40px;
+    border-bottom: 1px solid black;
+}
+
+.applicationblock {
+    background-image: url("images/peopleware.png");
+    background-repeat: no-repeat;
+    float: left;
+    height: 39px;
+    margin-top: -4px;
+    width: 187px;
+    margin-left: 5px;
+    margin-right: 10px;
+}
+
+    .applicationblock span {
+        display: none;
+    }
+
+.menu {
+    float: left;
+    margin-left: 20px;
+}
+
+    .menu li {
+        float: left;
+        display: inline;   
+        margin-right: 20px;
+        height: 40px;
+        
+    }
+    .menuitem {
+        font-size: 18px;
+        color: #2e6e9e;
+        text-decoration: none;
+        margin-top: 4px;
+    }
+
+        .menu li a:hover {
+            color: #d0e5f5;
+        }
+
+.login {
+    float: right;
+    
+}
+
+    .login li {
+        float: left;
+        margin-left: 5px;
+        margin-right: 5px;
+        display: inline;
+    }
+
+    .login li .menuitem {
+        margin-top: 4px;
+    }
+
+    .login li form {
+        width: 52px;
+    }

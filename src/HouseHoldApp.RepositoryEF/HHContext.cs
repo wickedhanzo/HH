@@ -1,5 +1,4 @@
 ﻿using System.Data.Entity;
-using HouseHoldApp.Domain;
 using HouseHoldApp.Domain.Entities;
 using Microsoft.AspNet.Identity.EntityFramework;
 
@@ -7,6 +6,11 @@ namespace HouseHoldApp.RepositoryEF
 {
     public class HhContext : IdentityDbContext<User>
     {
+        public HhContext(): base ("HouseHoldDb")
+        {
+
+        }
+
         public DbSet<HouseHold> HouseHolds { get; set; }
         public DbSet<HouseHoldMember> HouseHoldMembers { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
