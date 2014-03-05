@@ -144,7 +144,7 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
                     u.FindAsync(loginUserModel.UserName, loginUserModel.Password)).Returns(Task.FromResult<User>(null));
 
             //Act
-            await controller.Login(loginUserModel);
+            await controller.Login(loginUserModel, "");
             // Assert
             _authenticationManager.Verify(a => a.SignIn(), Times.Never);
         }
@@ -160,7 +160,7 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
                     u.FindAsync(loginUserModel.UserName, loginUserModel.Password)).Returns(Task.FromResult<User>(null));
 
             //Act
-             var actual = ((ViewResult)controller.Login(loginUserModel).Result).ViewName;
+             var actual = ((ViewResult)controller.Login(loginUserModel,"").Result).ViewName;
             // Assert
             Assert.AreEqual(string.Empty, actual);
         }
@@ -176,7 +176,7 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
                     u.FindAsync(loginUserModel.UserName, loginUserModel.Password)).Returns(Task.FromResult<User>(null));
 
             //Act
-            await controller.Login(loginUserModel);
+            await controller.Login(loginUserModel,"");
             // Assert
             Assert.AreEqual(1, controller.ModelState.Count);
         }
@@ -192,7 +192,7 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
                     u.FindAsync(loginUserModel.UserName, loginUserModel.Password)).Returns(Task.FromResult<User>(null));
             controller.ModelState.AddModelError("test","test");
             //Act
-            var actual = ((ViewResult)controller.Login(loginUserModel).Result).ViewName;
+            var actual = ((ViewResult)controller.Login(loginUserModel,"").Result).ViewName;
             // Assert
             Assert.AreEqual(string.Empty, actual);
         }
@@ -206,7 +206,7 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
                 u =>
                     u.FindAsync(loginUserModel.UserName, loginUserModel.Password)).Returns(Task.FromResult<User>(new User()));
             //Act
-            await controller.Login(loginUserModel);
+            await controller.Login(loginUserModel,"");
             // Assert
             _authenticationManager.Verify(a => a.SignIn(), Times.Never);
            // Assert.True(actual.RouteValues["action"].ToString() == "Index" && actual.RouteValues["controller"].ToString() == "Home");
@@ -221,7 +221,7 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
                 u =>
                     u.FindAsync(loginUserModel.UserName, loginUserModel.Password)).Returns(Task.FromResult<User>(new User()));
             //Act
-            var actual = ((RedirectToRouteResult)controller.Login(loginUserModel).Result);
+            var actual = ((RedirectToRouteResult)controller.Login(loginUserModel,"").Result);
             // Assert
             Assert.True(actual.RouteValues["action"].ToString() == "Index" && actual.RouteValues["controller"].ToString() == "Home");
         }
