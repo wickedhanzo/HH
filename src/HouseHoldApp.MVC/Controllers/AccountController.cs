@@ -59,7 +59,7 @@ namespace HouseHoldApp.MVC.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Login(LoginUserModel loginUserModel)
+        public async Task<ActionResult> Login(LoginUserModel loginUserModel, string returnUrl)
         {
             if (ModelState.IsValid)
             {
@@ -67,11 +67,23 @@ namespace HouseHoldApp.MVC.Controllers
                 if (user != null)
                 {
                     await SignInAsync(user, false);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToLocal(returnUrl);
                 }
                 ModelState.AddModelError("", "Invalid username or password.");
             }
             return View(loginUserModel);
+        }
+
+        private ActionResult RedirectToLocal(string returnUrl)
+        {
+            if (Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
 
         private async Task SignInAsync(User user, bool isPersistent)
