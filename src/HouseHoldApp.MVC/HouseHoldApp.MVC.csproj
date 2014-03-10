@@ -40,6 +40,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\packages\AutoMapper.3.1.1\lib\net40\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper.Net4">
+      <HintPath>..\packages\AutoMapper.3.1.1\lib\net40\AutoMapper.Net4.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.6.0.2\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -136,7 +142,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Infrastructure\AutoMapperProfile.cs" />
+    <Compile Include="Mappings\HouseHoldCreateModelMappingService.cs" />
+    <Compile Include="Mappings\IHouseHoldCreateModelMappingService.cs" />
+    <Compile Include="Mappings\IRegisterUserModelMappingService.cs" />
+    <Compile Include="Mappings\RegisterUserModelMappingService.cs" />
     <Compile Include="Startup.cs" />
+    <Content Include="..\packages\AutoMapper.3.1.1\lib\net40\AutoMapper.Net4.dll">
+      <Link>AutoMapper.Net4.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\images\animated-overlay.gif" />
     <Content Include="Content\images\HHIcon.png" />
     <Content Include="Content\images\peopleware.png" />

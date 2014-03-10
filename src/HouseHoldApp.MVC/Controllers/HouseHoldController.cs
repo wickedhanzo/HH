@@ -1,8 +1,10 @@
 ﻿using System.Web.Mvc;
+using AutoMapper;
 using HouseHoldApp.Domain.DomainServices;
 using HouseHoldApp.Domain.Entities;
 using HouseHoldApp.Domain.UnitOfWork;
 using HouseHoldApp.MVC.Infrastructure;
+using HouseHoldApp.MVC.Mappings;
 using HouseHoldApp.MVC.Models;
 
 namespace HouseHoldApp.MVC.Controllers
@@ -13,17 +15,19 @@ namespace HouseHoldApp.MVC.Controllers
         private readonly IHouseHoldMemberService _houseHoldMemberService;
         private readonly IUnitOfWork _uow;
         private readonly ICurrentUser _currentUser;
+        private readonly IHouseHoldCreateModelMappingService _houseHoldCreateModelMappingService;
 
         public HouseHoldController(IHouseHoldService houseHoldService,
                                    IHouseHoldMemberService houseHoldMemberService,
                                    IUnitOfWork uow,
-                                   ICurrentUser currentUser)
+                                   ICurrentUser currentUser,
+                                   IHouseHoldCreateModelMappingService houseHoldCreateModelMappingService)
         {
             _houseHoldService = houseHoldService;
             _houseHoldMemberService = houseHoldMemberService;
             _uow = uow;
             _currentUser = currentUser;
-            
+            _houseHoldCreateModelMappingService = houseHoldCreateModelMappingService;
         }
 
         [Authorize]
@@ -43,9 +47,8 @@ namespace HouseHoldApp.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                HouseHold houseHold = new HouseHold { Name = houseHoldCreateModel.Name };
+                HouseHold houseHold = _houseHoldCreateModelMappingService.MapToEntity(houseHoldCreateModel);
                 _houseHoldService.CreateHouseHold(houseHold);
-
                 HouseHoldMember houseHoldMember = new HouseHoldMember
                 {
                     UserId = _currentUser.UserId,

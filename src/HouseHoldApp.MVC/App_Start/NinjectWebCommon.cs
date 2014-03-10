@@ -1,9 +1,11 @@
 using System.Security.Principal;
+using AutoMapper;
 using HouseHoldApp.Domain.DomainServices;
 using HouseHoldApp.Domain.Entities;
 using HouseHoldApp.Domain.Repository;
 using HouseHoldApp.Domain.UnitOfWork;
 using HouseHoldApp.MVC.Infrastructure;
+using HouseHoldApp.MVC.Mappings;
 using HouseHoldApp.MVC.Models;
 using HouseHoldApp.RepositoryEF;
 using HouseHoldApp.RepositoryEF.Repositories;
@@ -70,11 +72,8 @@ namespace HouseHoldApp.MVC.App_Start
         {
             kernel.Bind<HhContext>().ToSelf().InRequestScope();
             kernel.Bind<UserStore<User>>().ToSelf().WithConstructorArgument("context", context => context.Kernel.Get<HhContext>());
-
+            Mapper.AddProfile(new AutoMapperProfile());
             kernel.Bind<UserManager<User>>().ToSelf().WithConstructorArgument("store", context => context.Kernel.Get<UserStore<User>>());
-            //kernel.Bind<IUserRepository>().To<UserRepositoryEF>()
-             //   .WithConstructorArgument("dbSet",
-               //              context => context.Kernel.Get<HhContext>().Set<User>());
             kernel.Bind<IHouseHoldRepository>().To<HouseHoldRepositoryEF>()
             .WithConstructorArgument("dbSet",
                              context => context.Kernel.Get<HhContext>().Set<HouseHold>());
@@ -89,6 +88,8 @@ namespace HouseHoldApp.MVC.App_Start
             kernel.Bind<IIdentity>().ToMethod(c => HttpContext.Current.User.Identity);
             kernel.Bind<ICurrentUser>().To<CurrentUser>().WithConstructorArgument("identity", c => c.Kernel.Get<IIdentity>());
             kernel.Bind<IAuthenticationManager>().ToMethod(c => HttpContext.Current.GetOwinContext().Authentication);
+            kernel.Bind<IHouseHoldCreateModelMappingService>().To<HouseHoldCreateModelMappingService>().InSingletonScope();
+            kernel.Bind<IRegisterUserModelMappingService>().To<RegisterUserModelMappingService>();
         }        
     }
 }

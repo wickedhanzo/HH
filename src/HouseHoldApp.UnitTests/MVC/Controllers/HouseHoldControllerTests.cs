@@ -4,6 +4,7 @@ using HouseHoldApp.Domain.Entities;
 using HouseHoldApp.Domain.UnitOfWork;
 using HouseHoldApp.MVC.Controllers;
 using HouseHoldApp.MVC.Infrastructure;
+using HouseHoldApp.MVC.Mappings;
 using HouseHoldApp.MVC.Models;
 using HouseHoldApp.TestBase.ObjectMothers.ViewModels;
 using Moq;
@@ -18,6 +19,7 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
         private Mock<IHouseHoldMemberService> _houseHoldMemberService;
         private Mock<IUnitOfWork> _uow;
         private Mock<ICurrentUser> _currentUser;
+        private Mock<IHouseHoldCreateModelMappingService> _houseHoldCreateModelMappingService;
 
         #region Index
         [TestCase]
@@ -139,8 +141,9 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
             _houseHoldMemberService = new Mock<IHouseHoldMemberService>();
             _uow = new Mock<IUnitOfWork>();
             _currentUser = new Mock<ICurrentUser>();
+            _houseHoldCreateModelMappingService = new Mock<IHouseHoldCreateModelMappingService>();
             _currentUser.Setup(c => c.UserName).Returns("user1@email.com");
-            HouseHoldController controller = new HouseHoldController(_houseHoldService.Object, _houseHoldMemberService.Object , _uow.Object, _currentUser.Object);
+            HouseHoldController controller = new HouseHoldController(_houseHoldService.Object, _houseHoldMemberService.Object , _uow.Object, _currentUser.Object, _houseHoldCreateModelMappingService.Object);
             return controller;
         }
     }

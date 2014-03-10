@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using HouseHoldApp.Domain.DomainServices;
 using HouseHoldApp.Domain.Entities;
 using HouseHoldApp.MVC.Controllers;
+using HouseHoldApp.MVC.Mappings;
 using HouseHoldApp.MVC.Models;
 using HouseHoldApp.TestBase.ObjectMothers.ViewModels;
 using Microsoft.AspNet.Identity;
@@ -18,6 +19,7 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
     {
         private Mock<IUserService> _userService;
         private Mock<IAuthenticationManager> _authenticationManager;
+        private Mock<IRegisterUserModelMappingService> _registerUserModelMappingService;
 
         #region Register
         [TestCase]
@@ -260,7 +262,8 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
         {
             _userService = new Mock<IUserService>();
             _authenticationManager = new Mock<IAuthenticationManager>();
-            AccountController controller = new AccountController(_userService.Object, _authenticationManager.Object);
+            _registerUserModelMappingService = new Mock<IRegisterUserModelMappingService>();
+            AccountController controller = new AccountController(_userService.Object, _authenticationManager.Object,  _registerUserModelMappingService.Object);
             return controller;
         }
 #endregion

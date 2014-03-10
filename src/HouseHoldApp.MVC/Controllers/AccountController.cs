@@ -1,7 +1,9 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Mvc;
+using AutoMapper;
 using HouseHoldApp.Domain.DomainServices;
 using HouseHoldApp.Domain.Entities;
+using HouseHoldApp.MVC.Mappings;
 using HouseHoldApp.MVC.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
@@ -13,12 +15,15 @@ namespace HouseHoldApp.MVC.Controllers
         
         private readonly IUserService _userService;
         private readonly IAuthenticationManager _authenticationManager;
+        private readonly IRegisterUserModelMappingService _registerUserModelMappingService;
 
         public AccountController(IUserService userService,
-                                 IAuthenticationManager authenticationManager)
+                                 IAuthenticationManager authenticationManager,
+                                 IRegisterUserModelMappingService registerUserModelMappingService)
         {          
             _userService = userService;
             _authenticationManager = authenticationManager;
+            _registerUserModelMappingService = registerUserModelMappingService;
         }
 
         public ActionResult Register()
@@ -31,10 +36,7 @@ namespace HouseHoldApp.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = new User
-                {
-                    UserName = registerUserModel.UserName
-                };
+                User user = _registerUserModelMappingService.MapToEntity(registerUserModel);
                 IdentityResult result = await _userService.CreateAsync(user, registerUserModel.Password);
                 if (result.Succeeded)
                 {
