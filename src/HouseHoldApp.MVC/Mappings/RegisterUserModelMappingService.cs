@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HouseHoldApp.Domain.Entities;
+using HouseHoldApp.MVC.Mappings.Interfaces;
 using HouseHoldApp.MVC.Models;
 
 namespace HouseHoldApp.MVC.Mappings

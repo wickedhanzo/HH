@@ -6,6 +6,7 @@ using HouseHoldApp.Domain.Repository;
 using HouseHoldApp.Domain.UnitOfWork;
 using HouseHoldApp.MVC.Infrastructure;
 using HouseHoldApp.MVC.Mappings;
+using HouseHoldApp.MVC.Mappings.Interfaces;
 using HouseHoldApp.MVC.Models;
 using HouseHoldApp.RepositoryEF;
 using HouseHoldApp.RepositoryEF.Repositories;

@@ -5,6 +5,7 @@ using HouseHoldApp.Domain.Entities;
 using HouseHoldApp.Domain.UnitOfWork;
 using HouseHoldApp.MVC.Infrastructure;
 using HouseHoldApp.MVC.Mappings;
+using HouseHoldApp.MVC.Mappings.Interfaces;
 using HouseHoldApp.MVC.Models;
 
 namespace HouseHoldApp.MVC.Controllers

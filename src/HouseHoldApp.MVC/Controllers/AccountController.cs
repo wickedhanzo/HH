@@ -4,6 +4,7 @@ using AutoMapper;
 using HouseHoldApp.Domain.DomainServices;
 using HouseHoldApp.Domain.Entities;
 using HouseHoldApp.MVC.Mappings;
+using HouseHoldApp.MVC.Mappings.Interfaces;
 using HouseHoldApp.MVC.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;

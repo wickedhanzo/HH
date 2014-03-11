@@ -5,6 +5,7 @@ using HouseHoldApp.Domain.UnitOfWork;
 using HouseHoldApp.MVC.Controllers;
 using HouseHoldApp.MVC.Infrastructure;
 using HouseHoldApp.MVC.Mappings;
+using HouseHoldApp.MVC.Mappings.Interfaces;
 using HouseHoldApp.MVC.Models;
 using HouseHoldApp.TestBase.ObjectMothers.ViewModels;
 using Moq;

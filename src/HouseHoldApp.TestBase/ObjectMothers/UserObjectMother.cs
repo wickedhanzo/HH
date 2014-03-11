@@ -5,13 +5,15 @@ namespace HouseHoldApp.TestBase.ObjectMothers
 {
     public static class UserObjectMother
     {
+        private static readonly Random Random = new Random();
         public static User GetUserWithRandomId()
         {
             User user = new User
             {
-                Id = new Random(10000).Next().ToString(),
-                EmailAddress = "user1@email.com"
+                Id = Random.Next(10000).ToString(),
+                EmailAddress = "user1@email.com",            
             };
+            user.UserName = "UserName" + user.Id;
             return user;
         }
     }
