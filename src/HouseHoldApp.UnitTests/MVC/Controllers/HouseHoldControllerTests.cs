@@ -4,7 +4,6 @@ using HouseHoldApp.Domain.Entities;
 using HouseHoldApp.Domain.UnitOfWork;
 using HouseHoldApp.MVC.Controllers;
 using HouseHoldApp.MVC.Infrastructure;
-using HouseHoldApp.MVC.Mappings;
 using HouseHoldApp.MVC.Mappings.Interfaces;
 using HouseHoldApp.MVC.Models;
 using HouseHoldApp.TestBase.ObjectMothers.ViewModels;
@@ -21,6 +20,7 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
         private Mock<IUnitOfWork> _uow;
         private Mock<ICurrentUser> _currentUser;
         private Mock<IHouseHoldCreateModelMappingService> _houseHoldCreateModelMappingService;
+        private HouseHold returnHouseHold;
 
         #region Index
         [TestCase]
@@ -50,11 +50,11 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
         {
             //Arrange
             HouseHoldCreateModel houseHoldCreateModel = HouseHoldCreateModelObjectMother.GetHouseHoldCreateModel();
-            HouseHoldController controller = CreateHouseHoldController();
+            HouseHoldController controller = CreateHouseHoldController(houseHoldCreateModel);
             //Act
             controller.Create(houseHoldCreateModel);
             //Assert
-            _houseHoldService.Verify(hs => hs.CreateHouseHold(It.Is<HouseHold>(h => h.Name.Equals(houseHoldCreateModel.Name))), Times.Once);
+            _houseHoldService.Verify(hs => hs.CreateHouseHold(returnHouseHold), Times.Once);
         }
 
         [TestCase]
@@ -62,7 +62,7 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
         {
             //Arrange
             HouseHoldCreateModel houseHoldCreateModel = HouseHoldCreateModelObjectMother.GetHouseHoldCreateModel();
-            HouseHoldController controller = CreateHouseHoldController();
+            HouseHoldController controller = CreateHouseHoldController(houseHoldCreateModel);
             //Act
             controller.Create(houseHoldCreateModel);
             _houseHoldMemberService.Verify(
@@ -71,12 +71,13 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
                         It.IsAny<HouseHoldMember>()), Times.Once);
         }
 
+
         [TestCase]
         public void CreatePost_ValidModelState_CallsSaveChangesOnUnitOfWork()
         {
             //Arrange
             HouseHoldCreateModel houseHoldCreateModel = HouseHoldCreateModelObjectMother.GetHouseHoldCreateModel();
-            HouseHoldController controller = CreateHouseHoldController();
+            HouseHoldController controller = CreateHouseHoldController(houseHoldCreateModel);
             //Act
             controller.Create(houseHoldCreateModel);
             _uow.Verify(u => u.SaveChanges(), Times.Once);
@@ -87,7 +88,7 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
         {
             //Arrange
             HouseHoldCreateModel houseHoldCreateModel = HouseHoldCreateModelObjectMother.GetHouseHoldCreateModel();
-            HouseHoldController controller = CreateHouseHoldController();
+            HouseHoldController controller = CreateHouseHoldController(houseHoldCreateModel);
             //Act
             RedirectToRouteResult actual = (RedirectToRouteResult)controller.Create(houseHoldCreateModel);
             // Assert
@@ -105,7 +106,7 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
             //Act
             controller.Create(houseHoldCreateModel);
             //Assert
-            _houseHoldService.Verify(hs => hs.CreateHouseHold(It.IsAny<HouseHold>()), Times.Never);
+            _houseHoldService.Verify(hs => hs.CreateHouseHold(returnHouseHold), Times.Never);
         }
 
 
@@ -136,6 +137,13 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
         }
         #endregion Create
 
+        private HouseHoldController CreateHouseHoldController(HouseHoldCreateModel houseHoldCreateModel)
+        {
+            HouseHoldController  controller = CreateHouseHoldController();
+            returnHouseHold = new HouseHold {Name = houseHoldCreateModel.Name};
+            _houseHoldCreateModelMappingService.Setup(h => h.MapToEntity(houseHoldCreateModel)).Returns(returnHouseHold);
+            return controller;
+        }
         public HouseHoldController CreateHouseHoldController()
         {        
             _houseHoldService = new Mock<IHouseHoldService>();

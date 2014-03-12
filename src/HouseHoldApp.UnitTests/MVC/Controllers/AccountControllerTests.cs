@@ -1,10 +1,12 @@
-﻿using System.Security.Claims;
+﻿using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 using HouseHoldApp.Domain.DomainServices;
 using HouseHoldApp.Domain.Entities;
 using HouseHoldApp.MVC.Controllers;
-using HouseHoldApp.MVC.Mappings;
 using HouseHoldApp.MVC.Mappings.Interfaces;
 using HouseHoldApp.MVC.Models;
 using HouseHoldApp.TestBase.ObjectMothers.ViewModels;
@@ -21,6 +23,7 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
         private Mock<IUserService> _userService;
         private Mock<IAuthenticationManager> _authenticationManager;
         private Mock<IRegisterUserModelMappingService> _registerUserModelMappingService;
+        private User _returnUser;
 
         #region Register
         [TestCase]
@@ -50,9 +53,8 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
         public async void RegisterHttpPost_ValidModelState_CreateAsyncCalledOnUserService()
         {
             //Arrange
-            AccountController controller = CreateAccountController();
             RegisterUserModel registerUserModel = RegisterUserModelObjectMother.GetRegisterUserModel();
-            RegisterSetup(registerUserModel, true);
+            AccountController controller = CreateAccountController(registerUserModel, true);
             //Act
             await controller.Register(registerUserModel);
             // Assert
@@ -63,9 +65,8 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
         public async void RegisterHttpPost_ValidModelState_CallsSignOutOnAuthenticationManager()
         {
             //Arrange
-            AccountController controller = CreateAccountController();
             RegisterUserModel registerUserModel = RegisterUserModelObjectMother.GetRegisterUserModel();
-            RegisterSetup(registerUserModel, true);
+            AccountController controller = CreateAccountController(registerUserModel, true);
             //Act
             await controller.Register(registerUserModel);
             // Assert
@@ -76,9 +77,8 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
         public async void RegisterHttpPost_ValidModelState_CallsSignInOnAuthenticationManager()
         {
             //Arrange
-            AccountController controller = CreateAccountController();
             RegisterUserModel registerUserModel = RegisterUserModelObjectMother.GetRegisterUserModel();
-            RegisterSetup(registerUserModel, true);
+            AccountController controller = CreateAccountController(registerUserModel, true);
             //Act
             await controller.Register(registerUserModel);
             // Assert
@@ -89,9 +89,8 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
         public async void RegisterHttpPost_ValidModelStateAndUserCreateFailed_DoesNotCallSignInOnAuthenticationManager()
         {
             //Arrange
-            AccountController controller = CreateAccountController();
             RegisterUserModel registerUserModel = RegisterUserModelObjectMother.GetRegisterUserModel();
-            RegisterSetup(registerUserModel, false);
+            AccountController controller = CreateAccountController(registerUserModel, false);
             //Act
             await controller.Register(registerUserModel);
             // Assert
@@ -102,9 +101,8 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
         public async void RegisterHttpPost_ValidModelStateAndUserCreateFailed_DoesNotCallsSignOutOnAuthenticationManager()
         {
             //Arrange
-            AccountController controller = CreateAccountController();
             RegisterUserModel registerUserModel = RegisterUserModelObjectMother.GetRegisterUserModel();
-            RegisterSetup(registerUserModel, false);
+            AccountController controller = CreateAccountController(registerUserModel, false);
             //Act
             await controller.Register(registerUserModel);
             // Assert
@@ -115,9 +113,8 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
         public async void RegisterHttpPost_ValidModelState_CallsRedirectToHomeIndex()
         {
             //Arrange
-            AccountController controller = CreateAccountController();
             RegisterUserModel registerUserModel = RegisterUserModelObjectMother.GetRegisterUserModel();
-            RegisterSetup(registerUserModel, true);
+            AccountController controller = CreateAccountController(registerUserModel, true);
             //Act
             RedirectToRouteResult actual = (RedirectToRouteResult)await controller.Register(registerUserModel);
             // Assert
@@ -140,8 +137,8 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
         public async void LoginHttpPost_DoesNotCallAuthenticationSignIn_ValidModelStateInCorrectCredentials()
         {
             //Arrange
-            AccountController controller = CreateAccountController();
             LoginUserModel loginUserModel = LoginUserModelObjectMother.GetLoginUserModel();
+            AccountController controller = CreateAccountController(loginUserModel);           
             _userService.Setup(
                 u =>
                     u.FindAsync(loginUserModel.UserName, loginUserModel.Password)).Returns(Task.FromResult<User>(null));
@@ -149,7 +146,7 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
             //Act
             await controller.Login(loginUserModel, "");
             // Assert
-            _authenticationManager.Verify(a => a.SignIn(), Times.Never);
+            _authenticationManager.Verify(u => u.SignIn(It.IsAny<AuthenticationProperties>(), It.Is<ClaimsIdentity>(c => c.AuthenticationType == "authType")), Times.Never);
         }
 
         [TestCase]
@@ -203,15 +200,16 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
         public async void LoginHttpPost_CallsAuthenticationManagerSignIn_ValidModelStateCorrectCredentials()
         {
             //Arrange
-            AccountController controller = CreateAccountController();
             LoginUserModel loginUserModel = LoginUserModelObjectMother.GetLoginUserModel();
+            AccountController controller = CreateAccountController(loginUserModel);   
             _userService.Setup(
                 u =>
-                    u.FindAsync(loginUserModel.UserName, loginUserModel.Password)).Returns(Task.FromResult<User>(new User()));
+                    u.FindAsync(loginUserModel.UserName, loginUserModel.Password)).Returns(Task.FromResult<User>(_returnUser));
+            
             //Act
             await controller.Login(loginUserModel,"");
             // Assert
-            _authenticationManager.Verify(a => a.SignIn(), Times.Never);
+            _authenticationManager.Verify(a => a.SignIn(It.IsAny<AuthenticationProperties>(), It.Is<ClaimsIdentity>(c => c.AuthenticationType == "authType")), Times.Once);
            // Assert.True(actual.RouteValues["action"].ToString() == "Index" && actual.RouteValues["controller"].ToString() == "Home");
         }
 
@@ -247,24 +245,50 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
         #endregion
 
         #region PrivateFunctions
-        private void RegisterSetup(RegisterUserModel registerUserModel, bool createUserSucceeded)
+        private void RegisterSetup(string username, string password, bool createUserSucceeded)
         {
             ClaimsIdentity identity = new ClaimsIdentity("authType");
             _userService.Setup(
                 c =>
-                    c.CreateAsync((It.Is<User>(n => n.UserName.Equals(registerUserModel.UserName))),
-                        registerUserModel.Password)).Returns(Task.FromResult(createUserSucceeded ? IdentityResult.Success : IdentityResult.Failed()));
+                    c.CreateAsync((It.Is<User>(n => n.UserName.Equals(username))),
+                        password)).Returns(Task.FromResult(createUserSucceeded ? IdentityResult.Success : IdentityResult.Failed()));
             _userService.Setup(
                 c =>
-                    c.CreateIdentityAsync((It.Is<User>(n => n.UserName.Equals(registerUserModel.UserName))),
+                    c.CreateIdentityAsync((It.Is<User>(n => n.UserName.Equals(username))),
                         DefaultAuthenticationTypes.ApplicationCookie)).Returns(Task.FromResult(identity));
+            
         }
+        private AccountController CreateAccountController(RegisterUserModel registerUserModel, bool createUserSucceeded)
+        {
+            AccountController controller = CreateAccountController();
+            RegisterSetup(registerUserModel.UserName, registerUserModel.Password, createUserSucceeded);
+            _returnUser = new User { UserName = registerUserModel.UserName };
+            _registerUserModelMappingService.Setup(r => r.MapToEntity(registerUserModel)).Returns(_returnUser);
+            return controller;
+        }
+
+        private AccountController CreateAccountController(LoginUserModel loginUserModel)
+        {
+            AccountController controller = CreateAccountController();
+            RegisterSetup(loginUserModel.UserName, loginUserModel.Password, true);
+            _returnUser = new User { UserName = loginUserModel.UserName };
+            return controller;
+        }
+
         private AccountController CreateAccountController()
         {
             _userService = new Mock<IUserService>();
             _authenticationManager = new Mock<IAuthenticationManager>();
             _registerUserModelMappingService = new Mock<IRegisterUserModelMappingService>();
-            AccountController controller = new AccountController(_userService.Object, _authenticationManager.Object,  _registerUserModelMappingService.Object);
+
+            AccountController controller = new AccountController(_userService.Object, _authenticationManager.Object, _registerUserModelMappingService.Object);
+
+            var httpContext = new Mock<HttpContextBase>();
+            var request = new Mock<HttpRequestBase>();
+            httpContext.Setup(x => x.Request).Returns(request.Object);
+            request.Setup(x => x.Url).Returns(new Uri("http://localhost:123"));
+            var requestContext = new RequestContext(httpContext.Object, new RouteData());
+            controller.Url = new UrlHelper(requestContext);
             return controller;
         }
 #endregion
