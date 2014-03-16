@@ -6,6 +6,7 @@ namespace HouseHoldApp.Domain.DomainServices
     public interface IHouseHoldService
     {
         void CreateHouseHold(HouseHold houseHold);
+        HouseHold GetById(int houseHoldId);
     }
 
     public class HouseHoldService : IHouseHoldService
@@ -19,6 +20,11 @@ namespace HouseHoldApp.Domain.DomainServices
         public void CreateHouseHold(HouseHold houseHold)
         {
             _houseHoldRepository.Add(houseHold);
+        }
+
+        public HouseHold GetById(int houseHoldId)
+        {
+           return _houseHoldRepository.GetById(houseHoldId);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Security.Claims;
+using System.Security.Policy;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -213,7 +214,7 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
            // Assert.True(actual.RouteValues["action"].ToString() == "Index" && actual.RouteValues["controller"].ToString() == "Home");
         }
 
-        public void LoginHttpPost_RedirectsToHomeIndex_ValidModelStateCorrectCredentials()
+        public void LoginHttpPost_RedirectsToHomeIndex_ValidModelStateCorrectCredentialsAndNoLocalUrl()
         {
             //Arrange
             AccountController controller = CreateAccountController();
@@ -225,6 +226,21 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
             var actual = ((RedirectToRouteResult)controller.Login(loginUserModel,"").Result);
             // Assert
             Assert.True(actual.RouteValues["action"].ToString() == "Index" && actual.RouteValues["controller"].ToString() == "Home");
+        }
+
+        [TestCase]
+        public void LoginHttpPost_RedirectsToHouseHoldCreate_ValidModelStateCorrectCredentialsAndLocalUrl()
+        {
+            //Arrange
+            AccountController controller = CreateAccountController();
+            LoginUserModel loginUserModel = LoginUserModelObjectMother.GetLoginUserModel();
+            _userService.Setup(
+                u =>
+                    u.FindAsync(loginUserModel.UserName, loginUserModel.Password)).Returns(Task.FromResult<User>(new User()));
+            //Act
+            var actual = ((RedirectResult)controller.Login(loginUserModel, "HouseHold/Create").Result);
+            // Assert
+            Assert.True(actual.Url == "HouseHold/Create");
         }
         #endregion
 
@@ -281,15 +297,25 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
             _authenticationManager = new Mock<IAuthenticationManager>();
             _registerUserModelMappingService = new Mock<IRegisterUserModelMappingService>();
 
-            AccountController controller = new AccountController(_userService.Object, _authenticationManager.Object, _registerUserModelMappingService.Object);
+            AccountController controller = new AccountController(_userService.Object, _authenticationManager.Object, _registerUserModelMappingService.Object)
+            {
+                Url = SetupControllerUrl()
+            };
+            return controller;
+        }
 
-            var httpContext = new Mock<HttpContextBase>();
+        private UrlHelper SetupControllerUrl()
+        {
+            Mock<UrlHelper> urlHelper = new Mock<UrlHelper>();
+            urlHelper.Setup(u => u.IsLocalUrl("HouseHold/Create")).Returns(true);
+            urlHelper.Setup(u => u.IsLocalUrl(string.Empty)).Returns(false);
+            /*var httpContext = new Mock<HttpContextBase>();
             var request = new Mock<HttpRequestBase>();
             httpContext.Setup(x => x.Request).Returns(request.Object);
-            request.Setup(x => x.Url).Returns(new Uri("http://localhost:123"));
+            request.Setup(x => x.Url).Returns(new Uri(url));
             var requestContext = new RequestContext(httpContext.Object, new RouteData());
-            controller.Url = new UrlHelper(requestContext);
-            return controller;
+            return UrlHelper(requestContext);*/
+            return urlHelper.Object;
         }
 #endregion
     }

@@ -17,24 +17,29 @@ namespace HouseHoldApp.MVC.Controllers
         private readonly IUnitOfWork _uow;
         private readonly ICurrentUser _currentUser;
         private readonly IHouseHoldCreateModelMappingService _houseHoldCreateModelMappingService;
+        private readonly IHouseHoldModelMappingService _houseHoldModelMappingService;
 
         public HouseHoldController(IHouseHoldService houseHoldService,
                                    IHouseHoldMemberService houseHoldMemberService,
                                    IUnitOfWork uow,
                                    ICurrentUser currentUser,
-                                   IHouseHoldCreateModelMappingService houseHoldCreateModelMappingService)
+                                   IHouseHoldCreateModelMappingService houseHoldCreateModelMappingService,
+                                   IHouseHoldModelMappingService houseHoldModelMappingService)
         {
             _houseHoldService = houseHoldService;
             _houseHoldMemberService = houseHoldMemberService;
             _uow = uow;
             _currentUser = currentUser;
             _houseHoldCreateModelMappingService = houseHoldCreateModelMappingService;
+            _houseHoldModelMappingService = houseHoldModelMappingService;
         }
 
         [Authorize]
         public ActionResult Index()
         {
-            return View();
+            HouseHold houseHold =_houseHoldService.GetById(_currentUser.HouseHoldId.Value);
+            HouseHoldModel houseHoldModel = _houseHoldModelMappingService.MapToView(houseHold);
+            return View(houseHoldModel);
         }
 
         [Authorize]

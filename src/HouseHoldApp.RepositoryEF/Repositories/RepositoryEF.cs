@@ -1,8 +1,10 @@
 ﻿using System.Data.Entity;
+using System.Linq;
+using HouseHoldApp.Domain.Entities;
 
 namespace HouseHoldApp.RepositoryEF.Repositories
 {
-    public abstract class RepositoryEF<T> where T : class
+    public abstract class RepositoryEF<T> where T : EntityBase
     {
         private readonly IDbSet<T> _dbSet;
 
@@ -14,6 +16,11 @@ namespace HouseHoldApp.RepositoryEF.Repositories
         public void Add(T entity)
         {
             _dbSet.Add(entity);
+        }
+
+        public T GetById(int id)
+        {
+            return _dbSet.FirstOrDefault(e => e.Id == id);
         }
     }
 }

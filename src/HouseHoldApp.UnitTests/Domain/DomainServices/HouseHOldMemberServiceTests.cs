@@ -15,17 +15,37 @@ namespace HouseHoldApp.UnitTests.Domain.DomainServices
     [TestFixture]
     public class HouseHoldMemberServiceTests
     {
+        private Mock<IHouseHoldMemberRepository> _houseHoldMemberRepository;
         [TestCase]
         public void CreateHouseHoldMember_CallsAddOnHouseHoldMemberRepository()
         {
             //Arrange
-            Mock<IHouseHoldMemberRepository> houseHoldMemberRepository = new Mock<IHouseHoldMemberRepository>();
-            IHouseHoldMemberService houseHoldMemberService = new HouseHoldMemberService(houseHoldMemberRepository.Object);
+            IHouseHoldMemberService houseHoldMemberService = CreateInstance();
             HouseHoldMember houseHoldMember = HouseHoldMemberObjectMother.GetHouseHoldMemberWithRandomId();
             //Act
             houseHoldMemberService.CreateHouseHoldMember(houseHoldMember);
             //Assert
-            houseHoldMemberRepository.Verify(h => h.Add(houseHoldMember), Times.Once);
+            _houseHoldMemberRepository.Verify(h => h.Add(houseHoldMember), Times.Once);
+        }
+
+        [TestCase]
+        public void GetByUserId_ReturnsHouseHoldMemberReturnedByRepository()
+        {
+            //Arrange
+            IHouseHoldMemberService houseHoldMemberService = CreateInstance();
+            HouseHoldMember expected = HouseHoldMemberObjectMother.GetHouseHoldMemberWithRandomId();
+            _houseHoldMemberRepository.Setup(h => h.GetByUserId("userid")).Returns(expected);
+            //Act
+            HouseHoldMember actual = houseHoldMemberService.GetByUserId("userid");
+            //Assert
+            Assert.True(actual.Equals(expected));
+        }
+
+        public IHouseHoldMemberService CreateInstance()
+        {
+            _houseHoldMemberRepository = new Mock<IHouseHoldMemberRepository>();
+            IHouseHoldMemberService houseHoldMemberService = new HouseHoldMemberService(_houseHoldMemberRepository.Object);
+            return houseHoldMemberService;
         }
     }
 }

@@ -91,6 +91,7 @@ namespace HouseHoldApp.MVC.App_Start
             kernel.Bind<IAuthenticationManager>().ToMethod(c => HttpContext.Current.GetOwinContext().Authentication);
             kernel.Bind<IHouseHoldCreateModelMappingService>().To<HouseHoldCreateModelMappingService>().InSingletonScope();
             kernel.Bind<IRegisterUserModelMappingService>().To<RegisterUserModelMappingService>();
+            kernel.Bind<IHouseHoldModelMappingService>().To<HouseHoldModelMappingService>();
         }        
     }
 }

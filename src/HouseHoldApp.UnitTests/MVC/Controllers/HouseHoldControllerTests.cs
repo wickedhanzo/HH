@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using HouseHoldApp.Domain.DomainServices;
 using HouseHoldApp.Domain.Entities;
 using HouseHoldApp.Domain.UnitOfWork;
@@ -20,6 +21,7 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
         private Mock<IUnitOfWork> _uow;
         private Mock<ICurrentUser> _currentUser;
         private Mock<IHouseHoldCreateModelMappingService> _houseHoldCreateModelMappingService;
+        private Mock<IHouseHoldModelMappingService> _houseHoldModelMappingService;
         private HouseHold returnHouseHold;
 
         #region Index
@@ -140,8 +142,13 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
         private HouseHoldController CreateHouseHoldController(HouseHoldCreateModel houseHoldCreateModel)
         {
             HouseHoldController  controller = CreateHouseHoldController();
-            returnHouseHold = new HouseHold {Name = houseHoldCreateModel.Name};
+            returnHouseHold = new HouseHold
+            {
+                Id = new Random().Next(10000),
+                Name = houseHoldCreateModel.Name
+            };
             _houseHoldCreateModelMappingService.Setup(h => h.MapToEntity(houseHoldCreateModel)).Returns(returnHouseHold);
+            
             return controller;
         }
         public HouseHoldController CreateHouseHoldController()
@@ -150,9 +157,12 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
             _houseHoldMemberService = new Mock<IHouseHoldMemberService>();
             _uow = new Mock<IUnitOfWork>();
             _currentUser = new Mock<ICurrentUser>();
+            _currentUser.Setup(u => u.HouseHoldId).Returns(1);
+            _currentUser.Setup(u => u.UserName).Returns("UserName");
             _houseHoldCreateModelMappingService = new Mock<IHouseHoldCreateModelMappingService>();
+            _houseHoldModelMappingService = new Mock<IHouseHoldModelMappingService>();
             _currentUser.Setup(c => c.UserName).Returns("user1@email.com");
-            HouseHoldController controller = new HouseHoldController(_houseHoldService.Object, _houseHoldMemberService.Object , _uow.Object, _currentUser.Object, _houseHoldCreateModelMappingService.Object);
+            HouseHoldController controller = new HouseHoldController(_houseHoldService.Object, _houseHoldMemberService.Object , _uow.Object, _currentUser.Object, _houseHoldCreateModelMappingService.Object, _houseHoldModelMappingService.Object);
             return controller;
         }
     }

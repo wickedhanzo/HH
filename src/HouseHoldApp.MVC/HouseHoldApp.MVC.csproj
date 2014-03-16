@@ -143,6 +143,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Infrastructure\AutoMapperProfile.cs" />
+    <Compile Include="Infrastructure\SessionStorage.cs" />
     <Compile Include="Mappings\HouseHoldCreateModelMappingService.cs" />
     <Compile Include="Mappings\HouseHoldModelMappingService.cs" />
     <Compile Include="Mappings\Interfaces\IHouseHoldCreateModelMappingService.cs" />

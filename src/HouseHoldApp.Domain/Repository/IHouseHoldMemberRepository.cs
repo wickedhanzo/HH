@@ -5,5 +5,6 @@ namespace HouseHoldApp.Domain.Repository
 {
     public interface IHouseHoldMemberRepository : IRepository<HouseHoldMember>
     {
+        HouseHoldMember GetByUserId(string userId);
     }
 }

@@ -26,5 +26,16 @@ namespace HouseHoldApp.TestBase.ObjectMothers
             houseHold.HouseHoldMembers = members;
             return houseHold;
         }
+
+        public static List<HouseHold> CreateList(int count)
+        {
+            List<HouseHold> houseHolds = new List<HouseHold>();
+
+            for (int i = 0; i < count; i++)
+            {
+                houseHolds.Add(GetHouseHoldWith5HouseHoldMembers());
+            }
+            return houseHolds;
+        }
     }
 }

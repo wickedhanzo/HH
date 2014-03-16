@@ -6,6 +6,8 @@ namespace HouseHoldApp.Domain.DomainServices
     public interface IHouseHoldMemberService
     {
         void CreateHouseHoldMember(HouseHoldMember houseHoldMember);
+
+        HouseHoldMember GetByUserId(string userId);
     }
 
     public class HouseHoldMemberService : IHouseHoldMemberService
@@ -19,6 +21,11 @@ namespace HouseHoldApp.Domain.DomainServices
         public void CreateHouseHoldMember(HouseHoldMember houseHoldMember)
         {
             _houseHoldMemberRepository.Add(houseHoldMember);
+        }
+
+        public HouseHoldMember GetByUserId(string userId)
+        {
+            return _houseHoldMemberRepository.GetByUserId(userId);
         }
     }
 }

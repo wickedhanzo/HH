@@ -12,7 +12,8 @@ namespace HouseHoldApp.TestBase.ObjectMothers
             HouseHoldMember houseHoldMember = new HouseHoldMember
             {
                 Id = Random.Next(10000),
-                User = UserObjectMother.GetUserWithRandomId()
+                User = UserObjectMother.GetUserWithRandomId(),
+                UserId = Random.Next(10000).ToString()
             };
             return houseHoldMember;
         }

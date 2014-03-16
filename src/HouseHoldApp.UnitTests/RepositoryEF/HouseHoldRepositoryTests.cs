@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using System.Linq;
 using HouseHoldApp.Domain.Entities;
 using HouseHoldApp.Domain.Repository;
 using HouseHoldApp.RepositoryEF.Repositories;
@@ -22,6 +23,19 @@ namespace HouseHoldApp.UnitTests.RepositoryEF
             houseHoldRepository.Add(houseHold);
             //Assert
             dbSet.Verify(d => d.Add(houseHold), Times.Once);
+        }
+
+        [TestCase]
+        public void GetById_ReturnsCorrectHouseHold_WitIdInCollection()
+        {
+            //Arrange
+            IQueryable<HouseHold> houseHolds = HouseHoldObjectMother.CreateList(5).AsQueryable();
+            Mock<IDbSet<HouseHold>> dbSet = MockUtil.CreateMockSet(houseHolds);
+            IHouseHoldRepository houseHoldRepository = new HouseHoldRepositoryEF(dbSet.Object);
+            //Act
+            HouseHold houseHold = houseHoldRepository.GetById(houseHolds.First().Id);
+            //Assert
+            Assert.True(houseHold == houseHolds.First());
         }
     }
 }
