@@ -4,12 +4,24 @@ namespace HouseHoldApp.MVC.Models
 {
     public class RegisterUserModel
     {
+        private string _password;
         [Required]
         public string UserName { get; set; }
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         [Required]
-        public string Password { get; set; }
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        public string Password
+        {
+            get
+            {
+                return _password ?? string.Empty;
+            }
+            set
+            {
+                _password = (value == null || value.Trim().Length == 0) ? null : value.Trim();
+            }
+        }
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm Password")]

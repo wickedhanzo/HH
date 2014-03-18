@@ -25,15 +25,17 @@ namespace HouseHoldApp.UnitTests.MVC.Models
             Assert.False(validState);
         }
 
-        [TestCase]
-        public void RegisterHttpPost_ViewStateInvalid_CalledWithEmptyEmailAddress()
+        [TestCase("","")]
+        [TestCase("", "password")]
+        [TestCase("username", "")]
+        public void RegisterHttpPost_ViewStateInvalid_CalledWithEmptyRequiredFields(string username, string password)
         {
             //Arrange
             RegisterUserModel registerUserModel = new RegisterUserModel
             {
-                UserName = string.Empty,
-                Password = "test",
-                ConfirmPassword = "test"
+                UserName = username,
+                Password = password,
+                ConfirmPassword = password
             };
             //Act
             bool validState = IsValidState(registerUserModel);
@@ -41,15 +43,16 @@ namespace HouseHoldApp.UnitTests.MVC.Models
             Assert.False(validState);
         }
 
-        [TestCase]
-        public void RegisterHttpPost_ViewStateInvalid_CalledWithEmptyPasswordAndEmptyConfirmPassword()
+        [TestCase("username", "pw")]
+        [TestCase("username", "12345 ")]
+        public void RegisterHttpPost_ViewStateInvalid_PasswordShorterThanSix(string username, string password)
         {
             //Arrange
             RegisterUserModel registerUserModel = new RegisterUserModel
             {
-                UserName = "test@gmail.com",
-                Password = string.Empty,
-                ConfirmPassword = string.Empty,
+                UserName = username,
+                Password = password,
+                ConfirmPassword = password
             };
             //Act
             bool validState = IsValidState(registerUserModel);
