@@ -33,7 +33,7 @@ namespace HouseHoldApp.UnitTests.RepositoryEF
             Mock<IDbSet<HouseHold>> dbSet = MockUtil.CreateMockSet(houseHolds);
             IHouseHoldRepository houseHoldRepository = new HouseHoldRepositoryEF(dbSet.Object);
             //Act
-            HouseHold houseHold = houseHoldRepository.GetById(houseHolds.First().Id);
+            HouseHold houseHold = houseHoldRepository.GetById(houseHolds.First().Id, h => h.HouseHoldMembers);
             //Assert
             Assert.True(houseHold == houseHolds.First() &&
                         houseHold.HouseHoldMembers.Count == 5);

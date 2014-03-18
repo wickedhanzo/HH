@@ -8,6 +8,7 @@ using System.Web.Routing;
 using HouseHoldApp.Domain.DomainServices;
 using HouseHoldApp.Domain.Entities;
 using HouseHoldApp.MVC.Controllers;
+using HouseHoldApp.MVC.Infrastructure;
 using HouseHoldApp.MVC.Mappings.Interfaces;
 using HouseHoldApp.MVC.Models;
 using HouseHoldApp.TestBase.ObjectMothers.ViewModels;
@@ -24,6 +25,9 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
         private Mock<IUserService> _userService;
         private Mock<IAuthenticationManager> _authenticationManager;
         private Mock<IRegisterUserModelMappingService> _registerUserModelMappingService;
+        private Mock<ISessionStorage> _sessionStorage;
+        private Mock<ICurrentUser> _currentUser;
+
         private User _returnUser;
 
         #region Register
@@ -126,12 +130,23 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
 
         #region Login
         [TestCase]
-        public void Login_Returns_ViewResult()
+        public void Login_Returns_ViewResult_CurrentUserNotAuthenticated()
         {
-            AccountController controller = CreateAccountController();  
+            AccountController controller = CreateAccountController();
+            _currentUser.Setup(c => c.IsAuthenticated).Returns(false);
             string expected = string.Empty;
             var actual = ((ViewResult)controller.Login()).ViewName;
             Assert.AreEqual(expected, actual);
+        }
+
+        [TestCase]
+        public void Login_Returns_RedirectToHome_CurrentUserAuthenticated()
+        {
+            AccountController controller = CreateAccountController();
+            _currentUser.Setup(c => c.IsAuthenticated).Returns(true);
+            string expected = string.Empty;
+            var actual = ((RedirectToRouteResult)controller.Login());
+            Assert.True(actual.RouteValues["action"].ToString() == "Index" && actual.RouteValues["controller"].ToString() == "Home");
         }
 
         [TestCase]
@@ -296,8 +311,9 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
             _userService = new Mock<IUserService>();
             _authenticationManager = new Mock<IAuthenticationManager>();
             _registerUserModelMappingService = new Mock<IRegisterUserModelMappingService>();
-
-            AccountController controller = new AccountController(_userService.Object, _authenticationManager.Object, _registerUserModelMappingService.Object)
+            _sessionStorage = new Mock<ISessionStorage>();
+            _currentUser = new Mock<ICurrentUser>();
+            AccountController controller = new AccountController(_userService.Object, _authenticationManager.Object, _registerUserModelMappingService.Object, _currentUser.Object, _sessionStorage.Object)
             {
                 Url = SetupControllerUrl()
             };
@@ -309,12 +325,6 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
             Mock<UrlHelper> urlHelper = new Mock<UrlHelper>();
             urlHelper.Setup(u => u.IsLocalUrl("HouseHold/Create")).Returns(true);
             urlHelper.Setup(u => u.IsLocalUrl(string.Empty)).Returns(false);
-            /*var httpContext = new Mock<HttpContextBase>();
-            var request = new Mock<HttpRequestBase>();
-            httpContext.Setup(x => x.Request).Returns(request.Object);
-            request.Setup(x => x.Url).Returns(new Uri(url));
-            var requestContext = new RequestContext(httpContext.Object, new RouteData());
-            return UrlHelper(requestContext);*/
             return urlHelper.Object;
         }
 #endregion

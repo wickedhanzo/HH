@@ -1,6 +1,4 @@
-﻿using System.Data.Entity;
-using HouseHoldApp.Domain;
-using HouseHoldApp.Domain.Repository;
+﻿using HouseHoldApp.Domain.Repository;
 using HouseHoldApp.Domain.UnitOfWork;
 using HouseHoldApp.RepositoryEF;
 using HouseHoldApp.RepositoryEF.UnitOfWork;

@@ -13,7 +13,8 @@ namespace HouseHoldApp.TestBase.ObjectMothers
             {
                 Id = Random.Next(10000),
                 User = UserObjectMother.GetUserWithRandomId(),
-                UserId = Random.Next(10000).ToString()
+                UserId = Random.Next(10000).ToString(),
+                HouseHoldId = Random.Next(10000)
             };
             return houseHoldMember;
         }

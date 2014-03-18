@@ -14,38 +14,60 @@ namespace HouseHoldApp.UnitTests.MVC.Infrastructure
     [TestFixture]
     public class CurrentUserTests
     {
+        private Mock<ISessionStorage> _sessionHelper;
+        private Mock<IHouseHoldMemberService> _houseHoldMemberService;
+        private IIdentity _identity;
+        private HouseHoldMember _houseHoldMember;
 
         [TestCase]
         public void Constructor_SetsProperties_SessionHelperHouseHoldIdIsNotNull()
         {
-            Mock<IHouseHoldMemberService> houseHoldMemberService = new Mock<IHouseHoldMemberService>();
-            Mock<ISessionHelper> sessionHelper = new Mock<ISessionHelper>();
-            
-            HouseHoldMember houseHoldMember = HouseHoldMemberObjectMother.GetHouseHoldMemberWithRandomId();
-            sessionHelper.Setup(s => s.HouseHoldId).Returns(houseHoldMember.HouseHoldId);
-            IIdentity identity = new ClaimsIdentity("IdentityUserName");
-            CurrentUser currentUser = new CurrentUser(identity, houseHoldMemberService.Object, sessionHelper.Object);
-            Assert.True(currentUser.IsAuthenticated == identity.IsAuthenticated
-                         && currentUser.UserId == identity.GetUserId()
-                         && currentUser.UserName == identity.GetUserName()
-                         && currentUser.HouseHoldId == houseHoldMember.HouseHoldId);
+            //Arrange
+            Setup();
+            _sessionHelper.Setup(s => s.HouseHoldId).Returns(_houseHoldMember.HouseHoldId);
+            //Act
+            CurrentUser currentUser = new CurrentUser(_identity, _houseHoldMemberService.Object, _sessionHelper.Object);
+            //Assert
+            Assert.True(currentUser.IsAuthenticated == _identity.IsAuthenticated);
+            Assert.True(currentUser.UserId == _identity.GetUserId());
+            Assert.True(currentUser.UserName == _identity.GetUserName());
+            Assert.True(currentUser.HouseHoldId == _houseHoldMember.HouseHoldId);
         }
 
         [TestCase]
         public void Constructor_SetsProperties_SessionHelperHouseHoldIdIsNull()
         {
-            Mock<IHouseHoldMemberService> houseHoldMemberService = new Mock<IHouseHoldMemberService>();
-            Mock<ISessionHelper> sessionHelper = new Mock<ISessionHelper>();
+            Setup();
+            _sessionHelper.Setup(s => s.HouseHoldId).Returns((int?)null);
 
-            HouseHoldMember houseHoldMember = HouseHoldMemberObjectMother.GetHouseHoldMemberWithRandomId();
-            sessionHelper.Setup(s => s.HouseHoldId).Returns((int?) null);
-            IIdentity identity = new ClaimsIdentity("IdentityUserName");
-            houseHoldMemberService.Setup(h => h.GetByUserId(identity.GetUserId())).Returns(houseHoldMember);
-            CurrentUser currentUser = new CurrentUser(identity, houseHoldMemberService.Object, sessionHelper.Object);
-            Assert.True(currentUser.IsAuthenticated == identity.IsAuthenticated
-                         && currentUser.UserId == identity.GetUserId()
-                         && currentUser.UserName == identity.GetUserName()
-                         && currentUser.HouseHoldId == houseHoldMember.HouseHoldId);
+            CurrentUser currentUser = new CurrentUser(_identity, _houseHoldMemberService.Object, _sessionHelper.Object);
+            Assert.True(currentUser.IsAuthenticated == _identity.IsAuthenticated
+                         && currentUser.UserId == _identity.GetUserId()
+                         && currentUser.UserName == _identity.GetUserName()
+                         && currentUser.HouseHoldId == _houseHoldMember.HouseHoldId);
+        }
+
+        [TestCase]
+        public void Constructor_SetsProperties_SessionHelperHouseHoldIdIsNullAndHouseHoldMemberServiceReturnsNull()
+        {
+            Setup();
+            _sessionHelper.Setup(s => s.HouseHoldId).Returns((int?)null);
+            _houseHoldMemberService.Setup(h => h.GetByUserId(_identity.GetUserId())).Returns((HouseHoldMember)null);
+            CurrentUser currentUser = new CurrentUser(_identity, _houseHoldMemberService.Object, _sessionHelper.Object);
+            Assert.True(currentUser.IsAuthenticated == _identity.IsAuthenticated
+                         && currentUser.UserId == _identity.GetUserId()
+                         && currentUser.UserName == _identity.GetUserName()
+                         && currentUser.HouseHoldId == null);
+        }
+
+        private void Setup()
+        {
+            _houseHoldMemberService = new Mock<IHouseHoldMemberService>();
+            _sessionHelper = new Mock<ISessionStorage>();
+            _houseHoldMember = HouseHoldMemberObjectMother.GetHouseHoldMemberWithRandomId();
+            _sessionHelper.Setup(s => s.HouseHoldId).Returns((int?)null);
+            _identity = new ClaimsIdentity("IdentityUserName");
+            _houseHoldMemberService.Setup(h => h.GetByUserId(_identity.GetUserId())).Returns(_houseHoldMember);
         }
     }
 }
