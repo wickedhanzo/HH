@@ -1,8 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using AutoMapper;
 using HouseHoldApp.Domain.DomainServices;
 using HouseHoldApp.Domain.Entities;
+using HouseHoldApp.MVC.Infrastructure;
 using HouseHoldApp.MVC.Mappings;
 using HouseHoldApp.MVC.Mappings.Interfaces;
 using HouseHoldApp.MVC.Models;
@@ -17,14 +19,20 @@ namespace HouseHoldApp.MVC.Controllers
         private readonly IUserService _userService;
         private readonly IAuthenticationManager _authenticationManager;
         private readonly IRegisterUserModelMappingService _registerUserModelMappingService;
+        private readonly ICurrentUser _currentUser;
+        private readonly ISessionStorage _sessionStorage;
 
         public AccountController(IUserService userService,
                                  IAuthenticationManager authenticationManager,
-                                 IRegisterUserModelMappingService registerUserModelMappingService)
+                                 IRegisterUserModelMappingService registerUserModelMappingService,
+                                 ICurrentUser currentUser,
+                                 ISessionStorage sessionStorage)
         {          
             _userService = userService;
             _authenticationManager = authenticationManager;
             _registerUserModelMappingService = registerUserModelMappingService;
+            _currentUser = currentUser;
+            _sessionStorage = sessionStorage;
         }
 
         public ActionResult Register()
@@ -50,6 +58,10 @@ namespace HouseHoldApp.MVC.Controllers
 
         public ActionResult Login()
         {
+            if (_currentUser.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 
@@ -58,6 +70,7 @@ namespace HouseHoldApp.MVC.Controllers
         public ActionResult LogOff()
         {
             _authenticationManager.SignOut();
+            _sessionStorage.Clear();
             return RedirectToAction("Index", "Home");
         }
 
