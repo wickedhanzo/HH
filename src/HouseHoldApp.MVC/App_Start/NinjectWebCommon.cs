@@ -87,6 +87,7 @@ namespace HouseHoldApp.MVC.App_Start
             kernel.Bind<IUserService>().To<UserService>().WithConstructorArgument("userManager", context => context.Kernel.Get<UserManager<User>>());
             kernel.Bind<IUnitOfWork>().To<UnitOfWorkEF>();
             kernel.Bind<IIdentity>().ToMethod(c => HttpContext.Current.User.Identity);
+            kernel.Bind<ISessionStorage>().To<HttpSessionStorage>();
             kernel.Bind<ICurrentUser>().To<CurrentUser>().WithConstructorArgument("identity", c => c.Kernel.Get<IIdentity>());
             kernel.Bind<IAuthenticationManager>().ToMethod(c => HttpContext.Current.GetOwinContext().Authentication);
             kernel.Bind<IHouseHoldCreateModelMappingService>().To<HouseHoldCreateModelMappingService>().InSingletonScope();
