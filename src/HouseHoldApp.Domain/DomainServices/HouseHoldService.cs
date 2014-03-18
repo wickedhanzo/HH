@@ -1,4 +1,5 @@
-﻿using HouseHoldApp.Domain.Entities;
+﻿using System.Linq;
+using HouseHoldApp.Domain.Entities;
 using HouseHoldApp.Domain.Repository;
 
 namespace HouseHoldApp.Domain.DomainServices
@@ -11,7 +12,7 @@ namespace HouseHoldApp.Domain.DomainServices
 
     public class HouseHoldService : IHouseHoldService
     {
-        private IHouseHoldRepository _houseHoldRepository;
+        private readonly IHouseHoldRepository _houseHoldRepository;
 
         public HouseHoldService(IHouseHoldRepository houseHoldRepository)
         {
@@ -24,7 +25,9 @@ namespace HouseHoldApp.Domain.DomainServices
 
         public HouseHold GetById(int houseHoldId)
         {
-           return _houseHoldRepository.GetById(houseHoldId);
+           return _houseHoldRepository.GetById(houseHoldId,
+               h => h.HouseHoldMembers,
+               h => h.HouseHoldMembers.Select(hm => hm.User));
         }
     }
 }

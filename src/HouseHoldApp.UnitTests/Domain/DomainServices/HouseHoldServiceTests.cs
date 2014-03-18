@@ -1,4 +1,5 @@
-﻿using HouseHoldApp.Domain.DomainServices;
+﻿using System.Linq;
+using HouseHoldApp.Domain.DomainServices;
 using HouseHoldApp.Domain.Entities;
 using HouseHoldApp.Domain.Repository;
 using HouseHoldApp.TestBase.ObjectMothers;
@@ -28,9 +29,9 @@ namespace HouseHoldApp.UnitTests.Domain.DomainServices
             //Arrange
             IHouseHoldService houseHoldService = CreateInstance();
             var expected = HouseHoldObjectMother.GetHouseHoldWithRandomId();
-            _houseHoldRepository.Setup(h => h.GetById(expected.Id)).Returns(expected);
+            _houseHoldRepository.Setup(h => h.GetById(expected.Id, hh => hh.HouseHoldMembers, hh => hh.HouseHoldMembers.Select(hm => hm.User))).Returns(expected);
             //Act
-            var actual =houseHoldService.GetById(expected.Id);
+            var actual = houseHoldService.GetById(expected.Id);
             //Assert
             Assert.True(expected.Equals(actual));
         }

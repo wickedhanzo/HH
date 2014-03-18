@@ -35,7 +35,8 @@ namespace HouseHoldApp.UnitTests.RepositoryEF
             //Act
             HouseHold houseHold = houseHoldRepository.GetById(houseHolds.First().Id);
             //Assert
-            Assert.True(houseHold == houseHolds.First());
+            Assert.True(houseHold == houseHolds.First() &&
+                        houseHold.HouseHoldMembers.Count == 5);
         }
     }
 }

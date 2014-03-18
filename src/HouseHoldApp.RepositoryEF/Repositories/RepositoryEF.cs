@@ -1,5 +1,7 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
 using System.Linq;
+using System.Linq.Expressions;
 using HouseHoldApp.Domain.Entities;
 
 namespace HouseHoldApp.RepositoryEF.Repositories
@@ -18,9 +20,14 @@ namespace HouseHoldApp.RepositoryEF.Repositories
             _dbSet.Add(entity);
         }
 
-        public T GetById(int id)
+        public T GetById(int id, params Expression<Func<T, object>>[] includeFields)
         {
-            return _dbSet.FirstOrDefault(e => e.Id == id);
+
+            IQueryable<T> dbSet = _dbSet;
+            foreach (Expression<Func<T, object>> includeField in includeFields)
+                dbSet = dbSet.Include<T, object>(includeField);
+
+            return dbSet.FirstOrDefault(e => e.Id == id);
         }
     }
 }
