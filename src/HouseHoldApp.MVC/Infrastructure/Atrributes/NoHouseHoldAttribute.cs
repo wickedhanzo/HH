@@ -16,7 +16,6 @@ namespace HouseHoldApp.MVC.Infrastructure.Atrributes
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            //Check your condition here
             if (CurrentUser.HasHouseHold)
             {
                 filterContext.Result = new RedirectResult("~/Home/Index");
