@@ -1,16 +1,14 @@
 ﻿using System.Web.Mvc;
-using AutoMapper;
 using HouseHoldApp.Domain.DomainServices;
 using HouseHoldApp.Domain.Entities;
 using HouseHoldApp.Domain.UnitOfWork;
 using HouseHoldApp.MVC.Infrastructure;
-using HouseHoldApp.MVC.Mappings;
 using HouseHoldApp.MVC.Mappings.Interfaces;
 using HouseHoldApp.MVC.Models;
 
 namespace HouseHoldApp.MVC.Controllers
 {
-    public class HouseHoldController : Controller
+    public class HouseHoldController : BaseController
     {
         private readonly IHouseHoldService _houseHoldService;
         private readonly IHouseHoldMemberService _houseHoldMemberService;
@@ -24,7 +22,7 @@ namespace HouseHoldApp.MVC.Controllers
                                    IUnitOfWork uow,
                                    ICurrentUser currentUser,
                                    IHouseHoldCreateModelMappingService houseHoldCreateModelMappingService,
-                                   IHouseHoldModelMappingService houseHoldModelMappingService)
+                                   IHouseHoldModelMappingService houseHoldModelMappingService) : base(currentUser)
         {
             _houseHoldService = houseHoldService;
             _houseHoldMemberService = houseHoldMemberService;

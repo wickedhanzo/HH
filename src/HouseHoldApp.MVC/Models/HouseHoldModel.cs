@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using HouseHoldApp.Domain.Entities;
 
 namespace HouseHoldApp.MVC.Models
 {

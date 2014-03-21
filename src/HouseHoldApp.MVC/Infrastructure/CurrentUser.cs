@@ -11,6 +11,7 @@ namespace HouseHoldApp.MVC.Infrastructure
         bool IsAuthenticated { get; }
         string UserId { get; }
         int? HouseHoldId { get; set; }
+        bool HasHouseHold { get; }
     }
 
     public class CurrentUser : ICurrentUser
@@ -49,5 +50,13 @@ namespace HouseHoldApp.MVC.Infrastructure
         public virtual bool IsAuthenticated { get; private set; }
         public virtual string UserId { get; private set; }
         public virtual int? HouseHoldId { get; set; }
+
+        public virtual bool HasHouseHold
+        {
+            get
+            {
+                return HouseHoldId != null && HouseHoldId > 0;
+            }
+        }
     }
 }

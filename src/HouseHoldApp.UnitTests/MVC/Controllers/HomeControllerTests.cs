@@ -1,5 +1,7 @@
 ﻿using System.Web.Mvc;
 using HouseHoldApp.MVC.Controllers;
+using HouseHoldApp.MVC.Infrastructure;
+using Moq;
 using NUnit.Framework;
 
 namespace HouseHoldApp.UnitTests.MVC.Controllers
@@ -11,7 +13,8 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
         public void Index_ReturnsView()
         {
             //Arrange
-            HomeController controller = new HomeController();
+            Mock<ICurrentUser> currentUser = new Mock<ICurrentUser>();
+            HomeController controller = new HomeController(currentUser.Object);
             //Act
             var actual = controller.Index();
             // Assert

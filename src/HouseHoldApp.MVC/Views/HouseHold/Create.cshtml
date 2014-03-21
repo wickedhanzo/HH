@@ -1,21 +1,20 @@
-﻿@model HouseHoldApp.MVC.Models.HouseHoldCreateModel
+﻿<link href="../../Content/Signin.css" rel="stylesheet">
+@model HouseHoldApp.MVC.Models.HouseHoldCreateModel
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@using (Html.BeginForm("Create", "HouseHold", FormMethod.Post))
-{
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary()
-    <div class="field">
-        @Html.LabelFor(h => h.Name)
-        @Html.TextBoxFor(h => h.Name)
-    </div>
-    <div class="field">
-        <label>&nbsp;</label>
-        <input type="submit" name="Create" value="Create" class="submitbutton" />
-    </div>
+<div class="container">
+    @using (Html.BeginForm("Create", "HouseHold", FormMethod.Post, new { @class = "form-signin" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary()
+        <h2 class="form-signin-heading">Create HouseHold</h2>
+        <div class="form-group">
+            @Html.TextBoxFor(h => h.Name, null, new { @class = "form-control", @placeholder = "Householdname" })
+        </div>
+        <input type="submit" name="Create" class="btn btn-lg btn-primary btn-block" value="Create" />
 
-}
-
+    }
+</div>

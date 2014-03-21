@@ -13,7 +13,7 @@ using Microsoft.Owin.Security;
 
 namespace HouseHoldApp.MVC.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         
         private readonly IUserService _userService;
@@ -26,7 +26,7 @@ namespace HouseHoldApp.MVC.Controllers
                                  IAuthenticationManager authenticationManager,
                                  IRegisterUserModelMappingService registerUserModelMappingService,
                                  ICurrentUser currentUser,
-                                 ISessionStorage sessionStorage)
+                                 ISessionStorage sessionStorage) : base(currentUser)
         {          
             _userService = userService;
             _authenticationManager = authenticationManager;

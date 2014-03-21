@@ -1,10 +1,24 @@
-﻿@model HouseHoldApp.MVC.Models.HouseHoldModel
+﻿@using HouseHoldApp.MVC.Models
+@model HouseHoldApp.MVC.Models.HouseHoldModel
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@Model.Name
+<h1>
+    @Model.Name
+</h1>
 
-
-
+<table>
+    <tr>
+        <th>Username</th>
+    </tr>
+    @foreach (HouseHoldMemberModel houseHoldMemberModel in @Model.HouseHoldMemberModels)
+    {
+        <tr>
+            <td>
+                @houseHoldMemberModel.UserModel.UserName
+            </td>
+        </tr>
+    }
+</table>
