@@ -58,7 +58,7 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
         public async void RegisterHttpPost_ValidModelState_CreateAsyncCalledOnUserService()
         {
             //Arrange
-            RegisterUserModel registerUserModel = RegisterUserModelObjectMother.GetRegisterUserModel();
+            RegisterUserModel registerUserModel = RegisterUserModelObjectMother.GetValidRegisterUserModel();
             AccountController controller = CreateAccountController(registerUserModel, true);
             //Act
             await controller.Register(registerUserModel);
@@ -70,7 +70,7 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
         public async void RegisterHttpPost_ValidModelState_CallsSignOutOnAuthenticationManager()
         {
             //Arrange
-            RegisterUserModel registerUserModel = RegisterUserModelObjectMother.GetRegisterUserModel();
+            RegisterUserModel registerUserModel = RegisterUserModelObjectMother.GetValidRegisterUserModel();
             AccountController controller = CreateAccountController(registerUserModel, true);
             //Act
             await controller.Register(registerUserModel);
@@ -82,7 +82,7 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
         public async void RegisterHttpPost_ValidModelState_CallsSignInOnAuthenticationManager()
         {
             //Arrange
-            RegisterUserModel registerUserModel = RegisterUserModelObjectMother.GetRegisterUserModel();
+            RegisterUserModel registerUserModel = RegisterUserModelObjectMother.GetValidRegisterUserModel();
             AccountController controller = CreateAccountController(registerUserModel, true);
             //Act
             await controller.Register(registerUserModel);
@@ -94,7 +94,7 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
         public async void RegisterHttpPost_ValidModelStateAndUserCreateFailed_DoesNotCallSignInOnAuthenticationManager()
         {
             //Arrange
-            RegisterUserModel registerUserModel = RegisterUserModelObjectMother.GetRegisterUserModel();
+            RegisterUserModel registerUserModel = RegisterUserModelObjectMother.GetValidRegisterUserModel();
             AccountController controller = CreateAccountController(registerUserModel, false);
             //Act
             await controller.Register(registerUserModel);
@@ -106,7 +106,7 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
         public async void RegisterHttpPost_ValidModelStateAndUserCreateFailed_DoesNotCallsSignOutOnAuthenticationManager()
         {
             //Arrange
-            RegisterUserModel registerUserModel = RegisterUserModelObjectMother.GetRegisterUserModel();
+            RegisterUserModel registerUserModel = RegisterUserModelObjectMother.GetValidRegisterUserModel();
             AccountController controller = CreateAccountController(registerUserModel, false);
             //Act
             await controller.Register(registerUserModel);
@@ -118,7 +118,7 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
         public async void RegisterHttpPost_ValidModelState_CallsRedirectToHomeIndex()
         {
             //Arrange
-            RegisterUserModel registerUserModel = RegisterUserModelObjectMother.GetRegisterUserModel();
+            RegisterUserModel registerUserModel = RegisterUserModelObjectMother.GetValidRegisterUserModel();
             AccountController controller = CreateAccountController(registerUserModel, true);
             //Act
             RedirectToRouteResult actual = (RedirectToRouteResult)await controller.Register(registerUserModel);

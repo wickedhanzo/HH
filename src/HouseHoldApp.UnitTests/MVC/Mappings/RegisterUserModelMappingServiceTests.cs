@@ -8,6 +8,7 @@ using HouseHoldApp.Domain.Entities;
 using HouseHoldApp.MVC.Infrastructure;
 using HouseHoldApp.MVC.Mappings;
 using HouseHoldApp.MVC.Models;
+using HouseHoldApp.TestBase.ObjectMothers.ViewModels;
 using NUnit.Framework;
 
 namespace HouseHoldApp.UnitTests.MVC.Mappings
@@ -20,15 +21,12 @@ namespace HouseHoldApp.UnitTests.MVC.Mappings
         {
             Mapper.AddProfile(new AutoMapperProfile());
             RegisterUserModelMappingService registerUserModelMappingService = new RegisterUserModelMappingService();
-            RegisterUserModel registerUserModel = new RegisterUserModel
-            {
-                UserName = "UserName",
-                Password = "Password",
-                ConfirmPassword = "ConfirmPassword"
-            };
+            RegisterUserModel registerUserModel = RegisterUserModelObjectMother.GetValidRegisterUserModel();
             User user = registerUserModelMappingService.MapToEntity(registerUserModel);
            
-            Assert.True(user.UserName == registerUserModel.UserName);
+            Assert.True(user.UserName == registerUserModel.UserName
+                     && user.FirstName == registerUserModel.FirstName
+                     && user.LastName == registerUserModel.LastName);
         }
     }
 }

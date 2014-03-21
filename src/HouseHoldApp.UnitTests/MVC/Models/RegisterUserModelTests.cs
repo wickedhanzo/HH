@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 using HouseHoldApp.MVC.Controllers;
 using HouseHoldApp.MVC.Models;
+using HouseHoldApp.TestBase.ObjectMothers.ViewModels;
 using NUnit.Framework;
 
 namespace HouseHoldApp.UnitTests.MVC.Models
@@ -70,14 +71,7 @@ namespace HouseHoldApp.UnitTests.MVC.Models
         public void RegisterHttpPost_ViewStateValid_CalledWithValidInfo()
         {
             //Arrange
-            RegisterUserModel registerUserModel = new RegisterUserModel
-            {
-                UserName = "test@gmail.com",
-                Password = "testpw",
-                ConfirmPassword = "testpw",
-                FirstName =  "firstname",
-                LastName = "lastname"
-            };
+            RegisterUserModel registerUserModel = RegisterUserModelObjectMother.GetValidRegisterUserModel();
             //Act
             bool validState = IsValidState(registerUserModel);
             //Assert
