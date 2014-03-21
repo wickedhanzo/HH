@@ -10,8 +10,7 @@ namespace HouseHoldApp.TestBase.ObjectMothers
         {
             User user = new User
             {
-                Id = Random.Next(10000).ToString(),
-                EmailAddress = "user1@email.com",            
+                Id = Random.Next(10000).ToString()          
             };
             user.UserName = "UserName" + user.Id;
             return user;
