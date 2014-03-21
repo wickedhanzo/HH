@@ -33,7 +33,8 @@ namespace HouseHoldApp.MVC.Controllers
             _houseHoldModelMappingService = houseHoldModelMappingService;
         }
 
-        [HouseHoldAuthorize]
+        [Authorize]
+        [HouseHold]
         public ActionResult Index()
         {
             HouseHold houseHold =_houseHoldService.GetById(_currentUser.HouseHoldId.Value);
@@ -42,6 +43,7 @@ namespace HouseHoldApp.MVC.Controllers
         }
 
         [Authorize]
+        [NoHouseHold]
         public ActionResult Create()
         {
             return View();

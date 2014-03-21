@@ -143,9 +143,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\BaseController.cs" />
-    <Compile Include="Infrastructure\Atrributes\DenyAuthorized.cs" />
+    <Compile Include="Infrastructure\Atrributes\NotAuthorized.cs" />
+    <Compile Include="Infrastructure\Atrributes\NoHouseHoldAttribute.cs" />
     <Compile Include="Infrastructure\AutoMapperProfile.cs" />
-    <Compile Include="Infrastructure\Atrributes\HouseHoldAuthorize.cs" />
+    <Compile Include="Infrastructure\Atrributes\HouseHoldAttribute.cs" />
     <Compile Include="Infrastructure\SessionStorage.cs" />
     <Compile Include="Mappings\HouseHoldCreateModelMappingService.cs" />
     <Compile Include="Mappings\HouseHoldModelMappingService.cs" />

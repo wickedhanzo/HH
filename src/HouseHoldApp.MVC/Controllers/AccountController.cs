@@ -36,7 +36,7 @@ namespace HouseHoldApp.MVC.Controllers
             _sessionStorage = sessionStorage;
         }
 
-        [DenyAuthorized]
+        [NotAuthorized]
         public ActionResult Register()
         {
             return View();
@@ -58,7 +58,7 @@ namespace HouseHoldApp.MVC.Controllers
             return View();
         }
 
-        [DenyAuthorized]
+        [NotAuthorized]
         public ActionResult Login()
         {
             return View();
