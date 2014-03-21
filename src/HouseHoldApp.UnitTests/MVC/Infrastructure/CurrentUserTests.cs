@@ -32,6 +32,7 @@ namespace HouseHoldApp.UnitTests.MVC.Infrastructure
             Assert.True(currentUser.UserId == _identity.GetUserId());
             Assert.True(currentUser.UserName == _identity.GetUserName());
             Assert.True(currentUser.HouseHoldId == _houseHoldMember.HouseHoldId);
+            Assert.True(currentUser.HasHouseHold);
         }
 
         [TestCase]
@@ -44,7 +45,8 @@ namespace HouseHoldApp.UnitTests.MVC.Infrastructure
             Assert.True(currentUser.IsAuthenticated == _identity.IsAuthenticated
                          && currentUser.UserId == _identity.GetUserId()
                          && currentUser.UserName == _identity.GetUserName()
-                         && currentUser.HouseHoldId == _houseHoldMember.HouseHoldId);
+                         && currentUser.HouseHoldId == _houseHoldMember.HouseHoldId
+                         && currentUser.HasHouseHold);
         }
 
         [TestCase]
@@ -57,7 +59,8 @@ namespace HouseHoldApp.UnitTests.MVC.Infrastructure
             Assert.True(currentUser.IsAuthenticated == _identity.IsAuthenticated
                          && currentUser.UserId == _identity.GetUserId()
                          && currentUser.UserName == _identity.GetUserName()
-                         && currentUser.HouseHoldId == null);
+                         && currentUser.HouseHoldId == null
+                         && currentUser.HasHouseHold == false);
         }
 
         private void Setup()
