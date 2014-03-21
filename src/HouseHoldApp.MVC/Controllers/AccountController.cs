@@ -5,6 +5,7 @@ using AutoMapper;
 using HouseHoldApp.Domain.DomainServices;
 using HouseHoldApp.Domain.Entities;
 using HouseHoldApp.MVC.Infrastructure;
+using HouseHoldApp.MVC.Infrastructure.Atrributes;
 using HouseHoldApp.MVC.Mappings;
 using HouseHoldApp.MVC.Mappings.Interfaces;
 using HouseHoldApp.MVC.Models;
@@ -35,6 +36,7 @@ namespace HouseHoldApp.MVC.Controllers
             _sessionStorage = sessionStorage;
         }
 
+        [DenyAuthorized]
         public ActionResult Register()
         {
             return View();
@@ -56,12 +58,9 @@ namespace HouseHoldApp.MVC.Controllers
             return View();
         }
 
+        [DenyAuthorized]
         public ActionResult Login()
         {
-            if (_currentUser.IsAuthenticated)
-            {
-                return RedirectToAction("Index", "Home");
-            }
             return View();
         }
 

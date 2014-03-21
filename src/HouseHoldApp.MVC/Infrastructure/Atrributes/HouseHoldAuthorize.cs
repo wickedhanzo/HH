@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Web;
+﻿using System.Web;
 using System.Web.Mvc;
 using Ninject;
 
-namespace HouseHoldApp.MVC.Infrastructure
+namespace HouseHoldApp.MVC.Infrastructure.Atrributes
 {
     public class HouseHoldAuthorizeAttribute : AuthorizeAttribute
     {

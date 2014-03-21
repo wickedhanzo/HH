@@ -140,16 +140,6 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
         }
 
         [TestCase]
-        public void Login_Returns_RedirectToHome_CurrentUserAuthenticated()
-        {
-            AccountController controller = CreateAccountController();
-            _currentUser.Setup(c => c.IsAuthenticated).Returns(true);
-            string expected = string.Empty;
-            var actual = ((RedirectToRouteResult)controller.Login());
-            Assert.True(actual.RouteValues["action"].ToString() == "Index" && actual.RouteValues["controller"].ToString() == "Home");
-        }
-
-        [TestCase]
         public async void LoginHttpPost_DoesNotCallAuthenticationSignIn_ValidModelStateInCorrectCredentials()
         {
             //Arrange
