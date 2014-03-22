@@ -5,20 +5,26 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>
-    @Model.Name
-</h1>
-
-<table>
-    <tr>
-        <th>Username</th>
-    </tr>
+<div class="container">
+    <h1>
+        @Model.Name
+    </h1>
+    <h2>Members</h2>
     @foreach (HouseHoldMemberModel houseHoldMemberModel in @Model.HouseHoldMemberModels)
     {
-        <tr>
-            <td>
-                @houseHoldMemberModel.UserModel.UserName
-            </td>
-        </tr>
+        UserModel model = houseHoldMemberModel.UserModel;
+        <div class="panel panel-primary memberpanel">
+            <div class="panel-heading">@houseHoldMemberModel.UserModel.UserName</div>
+            <div class="panel-body">
+                <div class="form-group">
+                    @Html.LabelFor(modelItem => model.FirstName):
+                    @houseHoldMemberModel.UserModel.FirstName
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(modelItem => model.LastName):
+                    @houseHoldMemberModel.UserModel.LastName
+                </div>
+            </div>
+        </div>
     }
-</table>
+    </div>

@@ -4,3 +4,8 @@ body {
   padding-top: 50px;
   padding-bottom: 20px;
 }
+
+.memberpanel {
+    width: 300px;
+    padding-bottom: -15px;
+}
