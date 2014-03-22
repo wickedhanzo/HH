@@ -13,9 +13,11 @@
     @foreach (HouseHoldMemberModel houseHoldMemberModel in @Model.HouseHoldMemberModels)
     {
         UserModel model = houseHoldMemberModel.UserModel;
+        string image = "/Content/images/users/" + model.Id + ".jpg";
         <div class="panel panel-primary memberpanel">
             <div class="panel-heading">@houseHoldMemberModel.UserModel.UserName</div>
             <div class="panel-body">
+                <img src="@image" width="100" height="100" />
                 <div class="form-group">
                     @Html.LabelFor(modelItem => model.FirstName):
                     @houseHoldMemberModel.UserModel.FirstName

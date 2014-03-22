@@ -72,6 +72,10 @@
     <Compile Include="Migrations\201403212329294_UserAddFirstAndLastName.Designer.cs">
       <DependentUpon>201403212329294_UserAddFirstAndLastName.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201403221429308_DeleteUserImage.cs" />
+    <Compile Include="Migrations\201403221429308_DeleteUserImage.Designer.cs">
+      <DependentUpon>201403221429308_DeleteUserImage.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\HouseHoldMemberRepositoryEF.cs" />
@@ -105,6 +109,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201403212329294_UserAddFirstAndLastName.resx">
       <DependentUpon>201403212329294_UserAddFirstAndLastName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201403221429308_DeleteUserImage.resx">
+      <DependentUpon>201403221429308_DeleteUserImage.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

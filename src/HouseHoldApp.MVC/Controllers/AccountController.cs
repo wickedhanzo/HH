@@ -1,5 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
 using HouseHoldApp.Domain.DomainServices;
@@ -16,7 +17,7 @@ namespace HouseHoldApp.MVC.Controllers
 {
     public class AccountController : BaseController
     {
-        
+
         private readonly IUserService _userService;
         private readonly IAuthenticationManager _authenticationManager;
         private readonly IRegisterUserModelMappingService _registerUserModelMappingService;
@@ -27,8 +28,9 @@ namespace HouseHoldApp.MVC.Controllers
                                  IAuthenticationManager authenticationManager,
                                  IRegisterUserModelMappingService registerUserModelMappingService,
                                  ICurrentUser currentUser,
-                                 ISessionStorage sessionStorage) : base(currentUser)
-        {          
+                                 ISessionStorage sessionStorage)
+            : base(currentUser)
+        {
             _userService = userService;
             _authenticationManager = authenticationManager;
             _registerUserModelMappingService = registerUserModelMappingService;
@@ -43,7 +45,7 @@ namespace HouseHoldApp.MVC.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Register(RegisterUserModel registerUserModel)
+        public async Task<ActionResult> Register(RegisterUserModel registerUserModel, HttpPostedFileBase userImage)
         {
             if (ModelState.IsValid)
             {
@@ -51,6 +53,11 @@ namespace HouseHoldApp.MVC.Controllers
                 IdentityResult result = await _userService.CreateAsync(user, registerUserModel.Password);
                 if (result.Succeeded)
                 {
+                    if (userImage != null)
+                    {
+                        string physicalPath = Server.MapPath("~/content/images/users/" + user.Id + ".jpg");
+                        userImage.SaveAs(physicalPath);
+                    }
                     await SignInAsync(user, false);
                     return RedirectToAction("Index", "Home");
                 }

@@ -5,7 +5,7 @@
 }
 
 <div class="container">
-    @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-signin" }))
+    @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-signin", enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
         @Html.ValidationSummary()
@@ -25,7 +25,7 @@
         <div class="form-group">
             @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @placeholder = "Last name" })
         </div>
-
+        <input type="file" name="userImage" id="userImage" style="width: 100%;" /> <br />
         <input type="submit" name="Register" class="btn btn-lg btn-primary btn-block" value="Register" />
     }
 </div>
