@@ -22,10 +22,13 @@
         <div class="form-group">
             @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @placeholder = "First name" })
         </div>
-        <div class="form-group">
+        <div class="form-group">          
             @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @placeholder = "Last name" })
         </div>
-        <input type="file" name="userImage" id="userImage" style="width: 100%;" /> <br />
+        <div class="form-group">
+            <label>User image</label>
+            <input type="file" name="userImage" id="userImage" style="width: 100%;" /> <br />
+        </div>
         <input type="submit" name="Register" class="btn btn-lg btn-primary btn-block" value="Register" />
     }
 </div>
