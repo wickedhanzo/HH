@@ -1,4 +1,5 @@
-﻿@using HouseHoldApp.MVC.Models
+﻿@using HouseHoldApp.Infrastructure
+@using HouseHoldApp.MVC.Models
 @model HouseHoldApp.MVC.Models.HouseHoldModel
 @{
     ViewBag.Title = "Index";
@@ -12,21 +13,20 @@
     <h2>Members</h2>
     @foreach (HouseHoldMemberModel houseHoldMemberModel in @Model.HouseHoldMemberModels)
     {
-        UserModel model = houseHoldMemberModel.UserModel;
-        string image = "/Content/images/users/" + model.Id + ".jpg";
+        UserModel userModel = houseHoldMemberModel.UserModel;
         <div class="panel panel-primary memberpanel">
-            <div class="panel-heading">@houseHoldMemberModel.UserModel.UserName</div>
+            <div class="panel-heading">@userModel.UserName</div>
             <div class="panel-body">
                 <div class="col-md-5">
-                    <img src="@image" width="100" height="100" />
+                    <img src="@userModel.UserImagePath" width="100" height="100" />
                     </div>
                     <div class="col-md-7">
                         <div class="form-group">
-                            @Html.LabelFor(modelItem => model.FirstName):
+                            @Html.LabelFor(modelItem => userModel.FirstName):
                             @houseHoldMemberModel.UserModel.FirstName
                         </div>
                         <div class="form-group">
-                            @Html.LabelFor(modelItem => model.LastName):
+                            @Html.LabelFor(modelItem => userModel.LastName):
                             @houseHoldMemberModel.UserModel.LastName
                         </div>
                     </div>

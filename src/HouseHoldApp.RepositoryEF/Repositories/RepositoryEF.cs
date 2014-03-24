@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
@@ -18,6 +20,11 @@ namespace HouseHoldApp.RepositoryEF.Repositories
         public void Add(T entity)
         {
             _dbSet.Add(entity);
+        }
+
+        public IEnumerable<T> GetAll()
+        {
+            return _dbSet;
         }
 
         public T GetById(int id, params Expression<Func<T, object>>[] includeFields)

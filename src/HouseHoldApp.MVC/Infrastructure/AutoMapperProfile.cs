@@ -19,7 +19,7 @@ namespace HouseHoldApp.MVC.Infrastructure
                     m => m.MapFrom(
                         q => Mapper.Map<User, UserModel>(q.User))
                 );
-     
+
             CreateMap<HouseHold, HouseHoldModel>()
                 .ForMember(h => h.HouseHoldMemberModels,
                     m => m.MapFrom
@@ -29,6 +29,7 @@ namespace HouseHoldApp.MVC.Infrastructure
                                     q.HouseHoldMembers)
                         ))
                         ;
+            CreateMap<IEnumerable<HouseHoldModel>, IEnumerable<HouseHold>>();
         }
     }
 }

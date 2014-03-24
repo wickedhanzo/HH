@@ -1,0 +1,36 @@
+﻿@using HouseHoldApp.MVC.Models
+@model IEnumerable<HouseHoldApp.MVC.Models.HouseHoldModel>
+
+@{
+    ViewBag.Title = "Search";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <h2>Search</h2>
+
+    <table class="table table-striped">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (HouseHoldModel houseHoldModel in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(h => houseHoldModel.Name)
+                </td>
+                <td>
+                    @using (Html.BeginForm("Join", "HouseHold", FormMethod.Post))
+                    {
+                        <input type="hidden" value="@houseHoldModel.Id" id="Id" name="Id" />
+                        <input type="submit" name="Join" class="btn btn-sm btn-primary" value="Join" />
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+</div>

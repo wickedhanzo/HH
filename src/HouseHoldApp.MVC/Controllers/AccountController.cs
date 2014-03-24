@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using AutoMapper;
 using HouseHoldApp.Domain.DomainServices;
 using HouseHoldApp.Domain.Entities;
+using HouseHoldApp.Infrastructure;
 using HouseHoldApp.MVC.Infrastructure;
 using HouseHoldApp.MVC.Infrastructure.Atrributes;
 using HouseHoldApp.MVC.Mappings;
@@ -55,7 +56,7 @@ namespace HouseHoldApp.MVC.Controllers
                 {
                     if (userImage != null)
                     {
-                        string physicalPath = Server.MapPath("~/content/images/users/" + user.Id + ".jpg");
+                        string physicalPath = Server.MapPath(Constants.UserImageFolder + user.Id + ".jpg");
                         userImage.SaveAs(physicalPath);
                     }
                     await SignInAsync(user, false);

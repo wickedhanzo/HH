@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using HouseHoldApp.Domain.Entities;
 using HouseHoldApp.Domain.Repository;
 
@@ -8,6 +9,8 @@ namespace HouseHoldApp.Domain.DomainServices
     {
         void CreateHouseHold(HouseHold houseHold);
         HouseHold GetById(int houseHoldId);
+
+        IEnumerable<HouseHold> GetAll();
     }
 
     public class HouseHoldService : IHouseHoldService
@@ -28,6 +31,11 @@ namespace HouseHoldApp.Domain.DomainServices
            return _houseHoldRepository.GetById(houseHoldId,
                h => h.HouseHoldMembers,
                h => h.HouseHoldMembers.Select(hm => hm.User));
+        }
+
+        public IEnumerable<HouseHold> GetAll()
+        {
+            return _houseHoldRepository.GetAll();
         }
     }
 }

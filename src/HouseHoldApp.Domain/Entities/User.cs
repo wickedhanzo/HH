@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNet.Identity.EntityFramework;
+﻿using System.IO;
+using HouseHoldApp.Infrastructure;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace HouseHoldApp.Domain.Entities
 {

@@ -44,7 +44,8 @@
                         if (((ICurrentUser)ViewBag.CurrentUser).HasHouseHold == false)
                         {
                             <li>@Html.ActionLink("Create HouseHold", "Create", "HouseHold", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "btn", @role = "button" })</li>
-                        }
+                            <li>@Html.ActionLink("Search HouseHold","Search","HouseHold" , routeValues: null, htmlAttributes: new { id = "registerLink", @class = "btn", @role = "button" })</li>    
+                    }
 
                         using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "nav navbar-nav navbar-right" }))
                         {

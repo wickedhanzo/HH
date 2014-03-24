@@ -169,6 +169,8 @@
     <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\bootstrap\js\bootstrap.js" />
     <Content Include="Content\bootstrap\js\bootstrap.min.js" />
+    <Content Include="Content\images\100pxUnknownFemale.jpg" />
+    <Content Include="Content\images\100pxUnknownMale.jpg" />
     <Content Include="Content\Signin.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\VSStyle.css" />
@@ -216,6 +218,7 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\HouseHold\Create.cshtml" />
     <Content Include="Views\HouseHold\Index.cshtml" />
+    <Content Include="Views\HouseHold\Search.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

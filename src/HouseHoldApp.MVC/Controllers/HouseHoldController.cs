@@ -1,4 +1,6 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Web.Mvc;
 using HouseHoldApp.Domain.DomainServices;
 using HouseHoldApp.Domain.Entities;
 using HouseHoldApp.Domain.UnitOfWork;
@@ -6,6 +8,7 @@ using HouseHoldApp.MVC.Infrastructure;
 using HouseHoldApp.MVC.Infrastructure.Atrributes;
 using HouseHoldApp.MVC.Mappings.Interfaces;
 using HouseHoldApp.MVC.Models;
+using Microsoft.AspNet.Identity;
 
 namespace HouseHoldApp.MVC.Controllers
 {
@@ -47,6 +50,28 @@ namespace HouseHoldApp.MVC.Controllers
         public ActionResult Create()
         {
             return View();
+        }
+
+        [Authorize]
+        [NoHouseHold]
+        public ActionResult Search()
+        {
+            IEnumerable<HouseHold> houseHolds = _houseHoldService.GetAll();
+            IEnumerable<HouseHoldModel> houseHoldModels = _houseHoldModelMappingService.MapToView(houseHolds);
+            return View(houseHoldModels);
+        }
+
+        [HttpPost]
+        public ActionResult Join(int id)
+        {
+            HouseHoldMember houseHoldMember = new HouseHoldMember
+            {
+                UserId = User.Identity.GetUserId(),
+                HouseHoldId = id
+            };
+            _houseHoldMemberService.CreateHouseHoldMember(houseHoldMember);
+            _uow.SaveChanges();
+            return RedirectToAction("Index", "HouseHold");
         }
 
         [HttpPost]
