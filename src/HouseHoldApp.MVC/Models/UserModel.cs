@@ -1,4 +1,9 @@
-﻿namespace HouseHoldApp.MVC.Models
+﻿using System.Collections;
+using System.Collections.Generic;
+using AutoMapper.Internal;
+using HouseHoldApp.Domain.Entities;
+
+namespace HouseHoldApp.MVC.Models
 {
     public class UserModel
     {

@@ -49,7 +49,7 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
             RegisterUserModel registerUserModel = new RegisterUserModel();    
             string expected = string.Empty;
             //Act
-            var actual = ((ViewResult)controller.Register(registerUserModel).Result).ViewName;
+            var actual = ((ViewResult)controller.Register(registerUserModel, null).Result).ViewName;
             //Assert
             Assert.AreEqual(expected, actual);
         }
@@ -61,7 +61,7 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
             RegisterUserModel registerUserModel = RegisterUserModelObjectMother.GetValidRegisterUserModel();
             AccountController controller = CreateAccountController(registerUserModel, true);
             //Act
-            await controller.Register(registerUserModel);
+            await controller.Register(registerUserModel, null);
             // Assert
             _userService.Verify(u => u.CreateAsync((It.Is<User>(n => n.UserName.Equals(registerUserModel.UserName))), registerUserModel.Password), Times.Once);
         }
@@ -73,7 +73,7 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
             RegisterUserModel registerUserModel = RegisterUserModelObjectMother.GetValidRegisterUserModel();
             AccountController controller = CreateAccountController(registerUserModel, true);
             //Act
-            await controller.Register(registerUserModel);
+            await controller.Register(registerUserModel, null);
             // Assert
             _authenticationManager.Verify(u => u.SignOut(DefaultAuthenticationTypes.ExternalCookie));
         }
@@ -85,7 +85,7 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
             RegisterUserModel registerUserModel = RegisterUserModelObjectMother.GetValidRegisterUserModel();
             AccountController controller = CreateAccountController(registerUserModel, true);
             //Act
-            await controller.Register(registerUserModel);
+            await controller.Register(registerUserModel,null);
             // Assert
             _authenticationManager.Verify(u => u.SignIn(It.IsAny<AuthenticationProperties>(), It.Is<ClaimsIdentity>(c => c.AuthenticationType == "authType")), Times.Once);
         }
@@ -97,7 +97,7 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
             RegisterUserModel registerUserModel = RegisterUserModelObjectMother.GetValidRegisterUserModel();
             AccountController controller = CreateAccountController(registerUserModel, false);
             //Act
-            await controller.Register(registerUserModel);
+            await controller.Register(registerUserModel,null);
             // Assert
             _authenticationManager.Verify(u => u.SignIn(It.IsAny<AuthenticationProperties>(), It.Is<ClaimsIdentity>(c => c.AuthenticationType == "authType")), Times.Never);
         }
@@ -109,7 +109,7 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
             RegisterUserModel registerUserModel = RegisterUserModelObjectMother.GetValidRegisterUserModel();
             AccountController controller = CreateAccountController(registerUserModel, false);
             //Act
-            await controller.Register(registerUserModel);
+            await controller.Register(registerUserModel,null);
             // Assert
             _authenticationManager.Verify(u => u.SignOut(DefaultAuthenticationTypes.ExternalCookie), Times.Never);
         }
@@ -121,7 +121,7 @@ namespace HouseHoldApp.UnitTests.MVC.Controllers
             RegisterUserModel registerUserModel = RegisterUserModelObjectMother.GetValidRegisterUserModel();
             AccountController controller = CreateAccountController(registerUserModel, true);
             //Act
-            RedirectToRouteResult actual = (RedirectToRouteResult)await controller.Register(registerUserModel);
+            RedirectToRouteResult actual = (RedirectToRouteResult)await controller.Register(registerUserModel,null);
             // Assert
             Assert.True(actual.RouteValues["action"].ToString() == "Index" &&
             actual.RouteValues["controller"].ToString() == "Home");

@@ -81,9 +81,13 @@ namespace HouseHoldApp.MVC.App_Start
             kernel.Bind<IHouseHoldMemberRepository>().To<HouseHoldMemberRepositoryEF>()
                 .WithConstructorArgument("dbSet",
                              context => context.Kernel.Get<HhContext>().Set<HouseHoldMember>());
+            kernel.Bind<IGenderRepository>().To<GenderRepositoryEF>()
+                .WithConstructorArgument("dbSet",
+                             context => context.Kernel.Get<HhContext>().Set<Gender>());
             kernel.Bind<IPasswordHasher>().To<PasswordHasher>();
             kernel.Bind<IHouseHoldService>().To<HouseHoldService>();
             kernel.Bind<IHouseHoldMemberService>().To<HouseHoldMemberService>();
+            kernel.Bind<IGenderService>().To<GenderService>();
             kernel.Bind<IUserService>().To<UserService>().WithConstructorArgument("userManager", context => context.Kernel.Get<UserManager<User>>());
             kernel.Bind<IUnitOfWork>().To<UnitOfWorkEF>();
             kernel.Bind<IIdentity>().ToMethod(c => HttpContext.Current.User.Identity);
@@ -93,6 +97,7 @@ namespace HouseHoldApp.MVC.App_Start
             kernel.Bind<IHouseHoldCreateModelMappingService>().To<HouseHoldCreateModelMappingService>().InSingletonScope();
             kernel.Bind<IRegisterUserModelMappingService>().To<RegisterUserModelMappingService>();
             kernel.Bind<IHouseHoldModelMappingService>().To<HouseHoldModelMappingService>();
+            kernel.Bind<IGenderModelMappingService>().To<GenderModelMappingService>();
         }        
     }
 }

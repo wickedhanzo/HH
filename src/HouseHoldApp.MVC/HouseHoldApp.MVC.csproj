@@ -148,12 +148,15 @@
     <Compile Include="Infrastructure\AutoMapperProfile.cs" />
     <Compile Include="Infrastructure\Atrributes\HouseHoldAttribute.cs" />
     <Compile Include="Infrastructure\SessionStorage.cs" />
+    <Compile Include="Mappings\GenderModelMappingService.cs" />
     <Compile Include="Mappings\HouseHoldCreateModelMappingService.cs" />
     <Compile Include="Mappings\HouseHoldModelMappingService.cs" />
+    <Compile Include="Mappings\Interfaces\IGenderModelMappingService.cs" />
     <Compile Include="Mappings\Interfaces\IHouseHoldCreateModelMappingService.cs" />
     <Compile Include="Mappings\Interfaces\IHouseHoldModelMappingService.cs" />
     <Compile Include="Mappings\Interfaces\IRegisterUserModelMappingService.cs" />
     <Compile Include="Mappings\RegisterUserModelMappingService.cs" />
+    <Compile Include="Models\GenderModel.cs" />
     <Compile Include="Models\HouseHoldMemberModel.cs" />
     <Compile Include="Models\HouseHoldModel.cs" />
     <Compile Include="Models\UserModel.cs" />

@@ -42,7 +42,8 @@ namespace HouseHoldApp.MVC.Controllers
         [NotAuthorized]
         public ActionResult Register()
         {
-            return View();
+            RegisterUserModel registerUserModel = _registerUserModelMappingService.MapToView(new User());
+            return View(registerUserModel);
         }
 
         [HttpPost]

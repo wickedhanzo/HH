@@ -4,11 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using HouseHoldApp.Domain.DomainServices;
 using HouseHoldApp.Domain.Entities;
 using HouseHoldApp.MVC.Infrastructure;
 using HouseHoldApp.MVC.Mappings;
+using HouseHoldApp.MVC.Mappings.Interfaces;
 using HouseHoldApp.MVC.Models;
 using HouseHoldApp.TestBase.ObjectMothers.ViewModels;
+using Moq;
 using NUnit.Framework;
 
 namespace HouseHoldApp.UnitTests.MVC.Mappings
@@ -20,7 +23,9 @@ namespace HouseHoldApp.UnitTests.MVC.Mappings
         public void MapToEntity_ReturnsCorrectUser_WithGivenRegisterUserModel()
         {
             Mapper.AddProfile(new AutoMapperProfile());
-            RegisterUserModelMappingService registerUserModelMappingService = new RegisterUserModelMappingService();
+            Mock<IGenderModelMappingService> genderModelMappingService = new Mock<IGenderModelMappingService>();
+            Mock<IGenderService> genderService = new Mock<IGenderService>();
+            RegisterUserModelMappingService registerUserModelMappingService = new RegisterUserModelMappingService(genderModelMappingService.Object, genderService.Object);
             RegisterUserModel registerUserModel = RegisterUserModelObjectMother.GetValidRegisterUserModel();
             User user = registerUserModelMappingService.MapToEntity(registerUserModel);
            

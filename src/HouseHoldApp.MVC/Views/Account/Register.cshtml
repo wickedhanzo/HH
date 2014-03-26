@@ -1,4 +1,6 @@
 ﻿<link href="../../Content/Signin.css" rel="stylesheet">
+@using HouseHoldApp.Domain.Entities
+@using HouseHoldApp.MVC.Models
 @model HouseHoldApp.MVC.Models.RegisterUserModel
 @{
     ViewBag.Title = "Register";
@@ -22,8 +24,20 @@
         <div class="form-group">
             @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @placeholder = "First name" })
         </div>
-        <div class="form-group">          
+        <div class="form-group">
             @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @placeholder = "Last name" })
+        </div>
+        <div class="form-group">
+            
+            @foreach (GenderModel genderModel in @Model.GenderModels)
+{
+    GenderModel model = genderModel;
+    <div class="radio-inline">
+        @Html.DisplayFor(m => model.Description)
+        @Html.RadioButtonFor(m => m.SelectedGender, model.Id)
+    </div>
+
+}
         </div>
         <div class="form-group">
             <label>User image</label>

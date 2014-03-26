@@ -10,7 +10,9 @@ namespace HouseHoldApp.MVC.Infrastructure
     {
         protected override void Configure()
         {
-            CreateMap<RegisterUserModel, User>();
+            CreateMap<RegisterUserModel, User>()
+                .ForMember(u => u.GenderId, opt => opt.MapFrom(rum => rum.SelectedGender));
+            CreateMap<User, RegisterUserModel>();
             CreateMap<HouseHoldCreateModel, HouseHold>();
             CreateMap<User, UserModel>();
             CreateMap<HouseHoldMember, HouseHoldMemberModel>()
@@ -30,6 +32,7 @@ namespace HouseHoldApp.MVC.Infrastructure
                         ))
                         ;
             CreateMap<IEnumerable<HouseHoldModel>, IEnumerable<HouseHold>>();
+            CreateMap<Gender,GenderModel>();
         }
     }
 }

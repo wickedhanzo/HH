@@ -1,6 +1,4 @@
-﻿using System.IO;
-using HouseHoldApp.Infrastructure;
-using Microsoft.AspNet.Identity.EntityFramework;
+﻿using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace HouseHoldApp.Domain.Entities
 {
@@ -8,5 +6,7 @@ namespace HouseHoldApp.Domain.Entities
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public int GenderId { get; set; }
+        public Gender Gender { get; set; }
     }
 }

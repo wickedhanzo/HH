@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Web;
 
 namespace HouseHoldApp.MVC.Models
@@ -33,5 +34,7 @@ namespace HouseHoldApp.MVC.Models
         public string FirstName { get; set; }
         [Required]
         public string LastName { get; set; }
+        public IEnumerable<GenderModel> GenderModels { get; set; }
+        public int SelectedGender { set; get; }
     }
 }

@@ -6,5 +6,6 @@ namespace HouseHoldApp.MVC.Mappings.Interfaces
     public interface IRegisterUserModelMappingService
     {
         User MapToEntity(RegisterUserModel registerUserModel);
+        RegisterUserModel MapToView(User user);
     }
 }
